@@ -1,0 +1,14 @@
+= Faszinierend! BDD mit dem Spock Framework
+
+Mr. Spock verstand es, logische Schlüsse zu ziehen.
+
+Das Spock Framework ermöglicht uns, dasselbe für das Verhalten unserer Anwendungen zu tun.
+Es ermöglicht Behaviour Driven Development (BDD) auf eine Weise, die nicht nur tiefgründig logisch, sondern auch äußerst elegant und einfach ist.
+
+In diesem Vortrag erfahrt ihr, wie Spock die Lesbarkeit und Wartbarkeit von Tests durch eine BDD-spezifische, auf natürlicher Sprache basierende Syntax verbessert.
+Wir tauchen ein in die Welt der Spock-Tests und sehen, wie man Given-When-Then-Blöcke (und vieles mehr) verwendet, um aussagekräftige Spezifikationen zu schreiben, die nicht nur für Entwickler, sondern auch für Business-Anwender verständlich sind.
+
+Von einfachen Feature-Tests über Mocking mit Spock bis hin zu datengetriebenen Tests zeige ich, warum das Framework die Testautomatisierung auf ein neues Niveau hebt.
+Macht euch bereit, Tests zu schreiben, die nicht nur funktionieren, sondern auch Spaß machen.
+
+Mögen eure Tests lange und in Frieden leben! 🖖
