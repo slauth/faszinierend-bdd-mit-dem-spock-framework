@@ -1,0 +1,87 @@
+:root {
+    --color-white: #fff;
+    --color-black: #000;
+    --color-accent-1: #009661;
+    --color-accent-2: #00422B;
+    --r-heading-color: var(--color-black);
+    --r-heading-font: "Deichmann Next";
+    --r-heading-text-transform: none;
+    --r-heading1-size: 3em;
+    --r-link-color: var(--color-accent-1);
+    --r-main-color: var(--color-black);
+    --r-main-font: "Deichmann Next";
+}
+
+/* general */
+span.line-through {
+    color: #666;
+    text-decoration: line-through;
+}
+span.big {
+    font-size: 3em;
+}
+.is-vcentered {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.reveal a {
+    text-decoration: underline;
+}
+
+.reveal pre {
+    font-size: .8em;
+    max-width: 90%;
+}
+
+.reveal pre code {
+    max-height: none;
+}
+.reveal pre code .s {
+    color: var(--color-accent-1);
+}
+.reveal pre code[data-lang="groovy"] .s2 {
+    color: #8250df;
+}
+
+.reveal .listingblock .title {
+    font-family: monospace;
+}
+
+/* title slide */
+body.title {
+    background: linear-gradient(45deg, var(--color-accent-2) 0%, var(--color-accent-1) 100%);
+}
+
+.reveal .title .slide-background-content {
+    background: url("images/deichmann-wortmarke.svg") calc(100% - 38px) calc(100% - 38px) no-repeat, url("images/deichmann-logo-weiss.svg") calc(100% - 38px) 38px no-repeat;
+}
+
+.reveal section.title h1, .reveal section.title h2, .reveal section.title p.byline {
+    color: var(--color-white);
+    text-align: left;
+}
+
+.title p.byline {
+    margin-top: 96px;
+}
+
+/* all slides */
+.reveal .slide-background-content {
+    background: var(--color-white) url("images/deichmann-logo-gruen.svg") calc(100% - 38px) calc(100% - 38px) no-repeat;
+}
+.reveal .full-background .slide-background-content {
+    background-color: var(--color-white);
+    background-position: 50% 50%;
+    background-size: contain;
+}
+
+.reveal h1 {
+    font-family: "Deichmann Next ExtraBold", sans-serif;
+}
+
+/* last slide */
+.the-end .slide-background-content {
+    background: var(--color-accent-1) url("images/ deichmann-logo-weiss.svg") 50% 50% no-repeat;
+}

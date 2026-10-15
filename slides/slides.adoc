@@ -1,0 +1,249 @@
+= Faszinierend!: BDD mit dem Spock Framework 🖖
+Sebastian Lauth, Deichmann SE
+:customcss: deichmann.css
+:imagesdir: images
+:revdate: 15.10.2026
+:revealjs_controlsLayout: edges
+:revealjs_controlsTutorial: false
+:revealjs_fragmentInURL: true
+:revealjs_hash: true
+:revealjs_height: 1080
+:revealjs_history: true
+:revealjs_pdfseparatefragments: false
+:revealjs_plugin_notes: enabled
+:revealjs_plugin_notes_path: dist/plugin/notes.js
+:revealjs_plugin_zoom: enabled
+:revealjs_plugin_zoom_path: dist/plugin/zoom.js
+:revealjs_width: 1920
+:source-highlighter: highlight.js
+:highlightjs-languages: java, groovy
+:highlightjs-theme: reveal.js/dist/plugin/highlight/custom.css
+
+== Wozu überhaupt?
+
+[%step]
+Für Tests haben wir doch JUnit.
+
+=== Der perfekte Test
+
+[%step]
+Ein guter Test zeigt auf einen Blick zwei Dinge:
+
+[%step]
+. was die Anwendung machen *soll* +
+   (→ Spezifikation)
+
+. ob sie dies *tatsächlich* macht +
+   (→ Verifikation)
+
+[.notes]
+--
+* JUnit: Fokus auf 2.
+* Trend zum *Spec Driven Development*
+* im Gegensatz zu Markdown: *ausführbare* Specs
+--
+
+=== _Kein_ guter Test
+
+[source,java,indent=0]
+----
+include::../src/test/java/de/slauth/spock/MyFirstTest.java[lines=14..20]
+----
+
+. Spezifikation 🤔
+. Verifikation ✅
+
+=== Wales Style
+
+[%notitle]
+[.full-background]
+=== Bahnhof
+
+image::Llanfair_PG_railway_station_sign.jpg[background]
+
+[.notes]
+--
+„Marienkirche in einer Mulde weißer Haseln in der Nähe des schnellen Wirbels und der Tysiliokirche bei der roten Höhle.“
+--
+
+=== Wales Style
+
+[source,java,indent=0]
+----
+include::../src/test/java/de/slauth/spock/WalesStyleTest.java[lines=14..28]
+----
+
+[.notes]
+--
+* sieht nach ganz normalem Code aus, nicht nach Test
+* ganz unten `assertEquals`… kann auch vergessen werden
+    ** Test bleibt trotzdem grün
+--
+
+=== JUnit `@Parameterized` Style
+
+[source,java,indent=0]
+----
+include::../src/test/java/de/slauth/spock/ParameterizedStyleTest.java[lines=19..42]
+----
+
+[.notes]
+--
+* given, when, then
+   ** oder auch arrange, act, assert
+* AssertJ
+--
+
+=== Meet Spock 🖖
+
+[source,groovy,indent=0]
+----
+include::../src/test/groovy/de/slauth/spock/discount/DiscountCalculatorSpec.groovy[lines=18..38]
+----
+
+[.notes]
+--
+* Spock nutzt Groovy → sprechende Methodennamen möglich
+* JUnit: `// given`, `// when`, `// then` sind nur Kommentare – nichts erzwingt die Struktur
+* Spock: Blöcke sind echte Syntax, der Testname ist ein Satz in natürlicher Sprache
+* Im `then:`/`expect:`-Block ist jede Zeile eine Assertion – kein `assertEquals` nötig
+--
+
+== Mocking
+
+=== JUnit
+
+[source,java]
+----
+@Test
+void someTest() {
+    when(repository.findById(42))
+        .thenReturn(Optional.of(customer));
+
+    service.placeOrder(42, order);
+
+    verify(mailer, times(1))
+        .sendConfirmation(any(Order.class));
+}
+----
+
+=== Spock
+
+[source,groovy]
+----
+void "some test"() {
+    given:
+        repository.findById(42) >> Optional.of(customer)
+
+    when:
+        service.placeOrder(42, order)
+
+    then:
+        1 * mailer.sendConfirmation(_ as Order)
+}
+----
+
+[.notes]
+--
+* Mocking ist in Spock eingebaut – keine zusätzliche Bibliothek
+* Stubbing (`>>`) gehört ins `given:`, erwartete Interaktionen (`1 *`) ins `then:` – dort, wo man sie liest
+* Mockito trennt dieselbe Aussage in `when(...)` vorher und `verify(...)` nachher
+* Beispiel ist illustrativ, nicht Teil des Demo-Projekts
+--
+
+== Datengetriebene Tests
+
+=== JUnit
+[source,java,indent=0]
+----
+include::../src/test/java/de/slauth/spock/ParameterizedStyleTest.java[lines=37..45]
+----
+
+=== Spock
+
+[source,groovy,indent=0]
+----
+include::../src/test/groovy/de/slauth/spock/discount/DiscountCalculatorSpec.groovy[lines=26..32]
+----
+
+[.notes]
+--
+* JUnit: `@ParameterizedTest`, `@MethodSource`, `Stream<Arguments>`, `Arguments.of(...)`, `new BigDecimal("...")`
+* Spock: Testdaten als Tabelle direkt unter dem Test – ein neuer Testfall ist eine neue Zeile
+* `||` trennt Eingaben optisch vom erwarteten Ergebnis
+--
+
+== Testnamen
+
+=== JUnit
+
+----
+calculatesDiscount(LocalDate, BigDecimal, BigDecimal)[2]
+----
+
+=== Spock
+
+----
+member since 2026-10-06, order of 100.00 € gets 5.00 € discount
+----
+
+[.notes]
+--
+* Platzhalter `#memberSince`, `#total`, `#expected` im Feature-Namen werden pro Datenzeile ersetzt
+* Im Report steht in Worten, welcher Fall fehlschlägt – nicht nur ein Index
+--
+
+== Fehlermeldungen
+
+=== JUnit
+
+----
+org.opentest4j.AssertionFailedError: expected: <0> but was: <1>
+----
+
+=== Spock
+
+----
+Condition not satisfied:
+
+calculator.discountFor(customer, order) == expected
+|          |           |         |      |  |
+|          0.00        |         |      |  5.00
+|                      |         |      false
+|                      |         Order[total=100.00]
+|                      Customer[memberSince=2026-10-05]
+<de.slauth.spock.discount.DiscountCalculator@6401d0a0>
+----
+
+[.notes]
+--
+* Power Assertions: ein einfaches `==` zeigt jeden Zwischenwert
+* Kein Debugger, kein Hamcrest/AssertJ-DSL nötig
+--
+
+== Einstieg ohne Big Bang
+
+* Spock 2 läuft auf der JUnit Platform
+    ** gleicher Maven-/Gradle-Build
+    ** gleiche IDE
+    ** gleiche CI
+* Produktionscode bleibt Java
+* Spock-Specs und JUnit-Tests leben friedlich nebeneinander 🖖
+
+[.notes]
+--
+* Antwort auf „Muss ich alles auf einmal umstellen?“ – nein
+* Vorschlag: nächsten neuen Test als Spec schreiben
+--
+
+== Drei Dinge zum Mitnehmen
+
+[%step]
+. *Lesbar:* Given-When-Then als echte Struktur – Specs, die das Business versteht und die den Output deiner KI-Agenten prüfen
+. *Datengetrieben:* `where:`-Tabellen statt `@MethodSource`
+. *Aussagekräftig:* Power Assertions erklären jeden Fehlschlag
+
+[.notes]
+--
+* Und der Einstieg kostet fast nichts – einfach ausprobieren 🖖
+--
