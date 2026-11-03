@@ -175,6 +175,10 @@ calculator.discountFor(customer, order) == expected
 * Kein Debugger, kein AssertJ/Hamcrest-DSL nötig
 --
 
+== Integrationstests
+
+// TODO
+
 == Einstieg ohne Big Bang
 
 * Spock läuft auf der JUnit-Platform
