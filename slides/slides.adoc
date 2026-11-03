@@ -19,9 +19,13 @@ Sebastian Lauth, Deichmann SE
 :highlightjs-languages: java, groovy
 :highlightjs-theme: reveal.js/dist/plugin/highlight/custom.css
 
+== Was ist das Spock Framework?
+
+[quote,https://spockframework.org/]
+Spock is a *testing*, *specification*, and *mocking* framework for JVM developers that emphasizes *readability* and *clarity*.
+
 == Wozu überhaupt?
 
-[%step]
 Für Tests haben wir doch JUnit.
 
 === Der perfekte Test
@@ -39,34 +43,42 @@ Ein guter Test zeigt auf einen Blick zwei Dinge:
 [.notes]
 --
 * JUnit: Fokus auf 2.
-* Trend zum *Spec Driven Development*
-* im Gegensatz zu Markdown: *ausführbare* Specs
+* Trend zum *Spec Driven Development* (mit Markdown)
+* Spock (im Gegensatz zu Markdown) = *ausführbare* Specs
 --
 
-=== _Kein_ guter Test
+== Beispiel: datengetriebener Test
+
+* Unit under Test: `DiscountCalculator`
+** berechnet Rabatte in Abhängigkeit von
+*** Kunde: Registrierungsdatum
+*** Bestellung: Bestellwert
+* Verifikation des Outputs für verschiedene Inputs
+
+=== 1. JUnit Reifegrad: „Einfach mal anfangen“
+
+[%notitle]
+=== 1. JUnit Reifegrad
 
 [source,java,indent=0]
 ----
 include::../src/test/java/de/slauth/spock/MyFirstTest.java[lines=14..20]
 ----
 
-. Spezifikation 🤔
-. Verifikation ✅
+. Spezifikation… 🤔❓😵‍💫
+. Verifikation… ✅
 
-=== Wales Style
+=== 2. JUnit Reifegrad: „Wales Style“
 
-[%notitle]
-[.full-background]
-=== Bahnhof
-
-image::Llanfair_PG_railway_station_sign.jpg[background]
+image::Llanfair_PG_railway_station_sign.jpg[height=800]
 
 [.notes]
 --
 „Marienkirche in einer Mulde weißer Haseln in der Nähe des schnellen Wirbels und der Tysiliokirche bei der roten Höhle.“
 --
 
-=== Wales Style
+[%notitle]
+=== 2. JUnit Reifegrad
 
 [source,java,indent=0]
 ----
@@ -80,7 +92,10 @@ include::../src/test/java/de/slauth/spock/WalesStyleTest.java[lines=14..28]
     ** Test bleibt trotzdem grün
 --
 
-=== JUnit `@Parameterized` Style
+=== 3. JUnit Reifegrad: `@Parameterized`
+
+[%notitle]
+=== 3. JUnit Reifegrad
 
 [source,java,indent=0]
 ----
@@ -90,11 +105,12 @@ include::../src/test/java/de/slauth/spock/ParameterizedStyleTest.java[lines=19..
 [.notes]
 --
 * given, when, then
-   ** oder auch arrange, act, assert
-* AssertJ
+   ** (oder auch arrange, act, assert)
+* *AssertJ* für bessere Fehlermeldungen
+* Testdaten getrennt vom Test, verknüpft über String 🙁
 --
 
-=== Meet Spock 🖖
+=== Spock Data Tables FTW 🖖
 
 [source,groovy,indent=0]
 ----
@@ -109,88 +125,21 @@ include::../src/test/groovy/de/slauth/spock/discount/DiscountCalculatorSpec.groo
 * Im `then:`/`expect:`-Block ist jede Zeile eine Assertion – kein `assertEquals` nötig
 --
 
-== Mocking
+== Beispiel: interaktionsbasierter Test
 
 === JUnit
 
-[source,java]
-----
-@Test
-void someTest() {
-    when(repository.findById(42))
-        .thenReturn(Optional.of(customer));
-
-    service.placeOrder(42, order);
-
-    verify(mailer, times(1))
-        .sendConfirmation(any(Order.class));
-}
-----
+TODO
 
 === Spock
 
-[source,groovy]
-----
-void "some test"() {
-    given:
-        repository.findById(42) >> Optional.of(customer)
-
-    when:
-        service.placeOrder(42, order)
-
-    then:
-        1 * mailer.sendConfirmation(_ as Order)
-}
-----
+TODO
 
 [.notes]
 --
-* Mocking ist in Spock eingebaut – keine zusätzliche Bibliothek
+* Mocking ist in Spock eingebaut
 * Stubbing (`>>`) gehört ins `given:`, erwartete Interaktionen (`1 *`) ins `then:` – dort, wo man sie liest
 * Mockito trennt dieselbe Aussage in `when(...)` vorher und `verify(...)` nachher
-* Beispiel ist illustrativ, nicht Teil des Demo-Projekts
---
-
-== Datengetriebene Tests
-
-=== JUnit
-[source,java,indent=0]
-----
-include::../src/test/java/de/slauth/spock/ParameterizedStyleTest.java[lines=37..45]
-----
-
-=== Spock
-
-[source,groovy,indent=0]
-----
-include::../src/test/groovy/de/slauth/spock/discount/DiscountCalculatorSpec.groovy[lines=26..32]
-----
-
-[.notes]
---
-* JUnit: `@ParameterizedTest`, `@MethodSource`, `Stream<Arguments>`, `Arguments.of(...)`, `new BigDecimal("...")`
-* Spock: Testdaten als Tabelle direkt unter dem Test – ein neuer Testfall ist eine neue Zeile
-* `||` trennt Eingaben optisch vom erwarteten Ergebnis
---
-
-== Testnamen
-
-=== JUnit
-
-----
-calculatesDiscount(LocalDate, BigDecimal, BigDecimal)[2]
-----
-
-=== Spock
-
-----
-member since 2026-10-06, order of 100.00 € gets 5.00 € discount
-----
-
-[.notes]
---
-* Platzhalter `#memberSince`, `#total`, `#expected` im Feature-Namen werden pro Datenzeile ersetzt
-* Im Report steht in Worten, welcher Fall fehlschlägt – nicht nur ein Index
 --
 
 == Fehlermeldungen
@@ -218,12 +167,12 @@ calculator.discountFor(customer, order) == expected
 [.notes]
 --
 * Power Assertions: ein einfaches `==` zeigt jeden Zwischenwert
-* Kein Debugger, kein Hamcrest/AssertJ-DSL nötig
+* Kein Debugger, kein AssertJ/Hamcrest-DSL nötig
 --
 
 == Einstieg ohne Big Bang
 
-* Spock 2 läuft auf der JUnit Platform
+* Spock läuft auf der JUnit-Platform
     ** gleicher Maven-/Gradle-Build
     ** gleiche IDE
     ** gleiche CI
@@ -236,10 +185,10 @@ calculator.discountFor(customer, order) == expected
 * Vorschlag: nächsten neuen Test als Spec schreiben
 --
 
-== Drei Dinge zum Mitnehmen
+== 3 Dinge zum Mitnehmen
 
 [%step]
-. *Lesbar:* Given-When-Then als echte Struktur – Specs, die das Business versteht und die den Output deiner KI-Agenten prüfen
+. *Lesbar:* Given-When-Then als echte Struktur – Specs, die sowohl das Business als auch dein KI-Agent versteht
 . *Datengetrieben:* `where:`-Tabellen statt `@MethodSource`
 . *Aussagekräftig:* Power Assertions erklären jeden Fehlschlag
 
