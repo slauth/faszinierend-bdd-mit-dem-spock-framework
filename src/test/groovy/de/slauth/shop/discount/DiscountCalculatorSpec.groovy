@@ -1,8 +1,7 @@
-package de.slauth.spock.discount
+package de.slauth.shop.discount
 
-import de.slauth.spock.Customer
-import de.slauth.spock.DiscountCalculator
-import de.slauth.spock.Order
+import de.slauth.shop.Customer
+import de.slauth.shop.Order
 import spock.lang.Shared
 import spock.lang.Specification
 

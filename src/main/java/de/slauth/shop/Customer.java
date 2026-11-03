@@ -1,4 +1,4 @@
-package de.slauth.spock;
+package de.slauth.shop;
 
 import java.time.LocalDate;
 

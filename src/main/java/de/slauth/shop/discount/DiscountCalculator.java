@@ -1,14 +1,14 @@
-package de.slauth.spock;
+package de.slauth.shop.discount;
 
+import de.slauth.shop.Customer;
+import de.slauth.shop.Order;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.time.Period;
 
 import static java.math.RoundingMode.HALF_UP;
 import static java.time.LocalDate.now;
-import static java.time.temporal.ChronoUnit.YEARS;
 
 /// Calculates the discount for an order.
 /// - Orders of 100 € or more get 5 % off.

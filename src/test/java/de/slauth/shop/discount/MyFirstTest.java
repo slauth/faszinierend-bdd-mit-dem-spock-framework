@@ -1,5 +1,7 @@
-package de.slauth.spock;
+package de.slauth.shop.discount;
 
+import de.slauth.shop.Customer;
+import de.slauth.shop.Order;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

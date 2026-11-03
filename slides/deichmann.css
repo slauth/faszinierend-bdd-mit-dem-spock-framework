@@ -2,6 +2,7 @@
     --color-white: #fff;
     --color-black: #000;
     --color-accent-1: #009661;
+    --color-accent-1-lighten: #c9ffec;
     --color-accent-2: #00422B;
     --r-heading-color: var(--color-black);
     --r-heading-font: "Deichmann Next";
@@ -30,6 +31,10 @@ span.big {
     text-decoration: underline;
 }
 
+.reveal li {
+    margin-bottom: 1em;
+}
+
 .reveal pre {
     font-size: .8em;
     max-width: 90%;
@@ -47,6 +52,11 @@ span.big {
 
 .reveal .listingblock .title {
     font-family: monospace;
+}
+
+.reveal strong, .reveal b {
+    background: var(--color-accent-1-lighten);
+    padding: .2em .2em 0 .2em;
 }
 
 /* title slide */

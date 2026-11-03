@@ -26,7 +26,8 @@ Spock is a *testing*, *specification*, and *mocking* framework for JVM developer
 
 == Wozu überhaupt?
 
-Für Tests haben wir doch JUnit.
+[%step]
+Für Tests haben wir doch *JUnit*.
 
 === Der perfekte Test
 
@@ -34,41 +35,33 @@ Für Tests haben wir doch JUnit.
 Ein guter Test zeigt auf einen Blick zwei Dinge:
 
 [%step]
-. was die Anwendung machen *soll* +
-   (→ Spezifikation)
+. was die Anwendung machen _soll_ +
+   (→ *Spezifikation*)
 
-. ob sie dies *tatsächlich* macht +
-   (→ Verifikation)
+. ob sie dies _tatsächlich_ macht +
+   (→ *Verifikation*)
 
 [.notes]
 --
-* JUnit: Fokus auf 2.
+* JUnit: Fokus auf *2.*
 * Trend zum *Spec Driven Development* (mit Markdown)
 * Spock (im Gegensatz zu Markdown) = *ausführbare* Specs
 --
 
-== Beispiel: datengetriebener Test
-
-* Unit under Test: `DiscountCalculator`
-** berechnet Rabatte in Abhängigkeit von
-*** Kunde: Registrierungsdatum
-*** Bestellung: Bestellwert
-* Verifikation des Outputs für verschiedene Inputs
-
-=== 1. JUnit Reifegrad: „Einfach mal anfangen“
+== Beispiel: *datengetriebener* Test
 
 [%notitle]
-=== 1. JUnit Reifegrad
+=== JUnit 1
 
 [source,java,indent=0]
 ----
-include::../src/test/java/de/slauth/spock/MyFirstTest.java[lines=14..20]
+include::../src/test/java/de/slauth/shop/discount/MyFirstTest.java[lines=16..22]
 ----
 
 . Spezifikation… 🤔❓😵‍💫
 . Verifikation… ✅
 
-=== 2. JUnit Reifegrad: „Wales Style“
+=== *„Wales Style“*
 
 image::Llanfair_PG_railway_station_sign.jpg[height=800]
 
@@ -78,11 +71,11 @@ image::Llanfair_PG_railway_station_sign.jpg[height=800]
 --
 
 [%notitle]
-=== 2. JUnit Reifegrad
+=== JUnit 2
 
 [source,java,indent=0]
 ----
-include::../src/test/java/de/slauth/spock/WalesStyleTest.java[lines=14..28]
+include::../src/test/java/de/slauth/shop/discount/WalesStyleTest.java[lines=16..30]
 ----
 
 [.notes]
@@ -92,14 +85,14 @@ include::../src/test/java/de/slauth/spock/WalesStyleTest.java[lines=14..28]
     ** Test bleibt trotzdem grün
 --
 
-=== 3. JUnit Reifegrad: `@Parameterized`
+=== *`@Parameterized`*
 
 [%notitle]
-=== 3. JUnit Reifegrad
+=== JUnit 3
 
 [source,java,indent=0]
 ----
-include::../src/test/java/de/slauth/spock/ParameterizedStyleTest.java[lines=19..42]
+include::../src/test/java/de/slauth/shop/discount/ParameterizedStyleTest.java[lines=21..44]
 ----
 
 [.notes]
@@ -110,11 +103,11 @@ include::../src/test/java/de/slauth/spock/ParameterizedStyleTest.java[lines=19..
 * Testdaten getrennt vom Test, verknüpft über String 🙁
 --
 
-=== Spock Data Tables FTW 🖖
+=== *Spock Data Tables FTW* 🖖
 
 [source,groovy,indent=0]
 ----
-include::../src/test/groovy/de/slauth/spock/discount/DiscountCalculatorSpec.groovy[lines=18..38]
+include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groovy[lines=17..36]
 ----
 
 [.notes]
@@ -125,22 +118,34 @@ include::../src/test/groovy/de/slauth/spock/discount/DiscountCalculatorSpec.groo
 * Im `then:`/`expect:`-Block ist jede Zeile eine Assertion – kein `assertEquals` nötig
 --
 
-== Beispiel: interaktionsbasierter Test
+== Beispiel: *interaktionsbasierter* Test
 
 === JUnit
 
-TODO
-
-=== Spock
-
-TODO
+[source,java,indent=0]
+----
+include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines=22..36]
+----
 
 [.notes]
 --
-* Mocking ist in Spock eingebaut
-* Stubbing (`>>`) gehört ins `given:`, erwartete Interaktionen (`1 *`) ins `then:` – dort, wo man sie liest
-* Mockito trennt dieselbe Aussage in `when(...)` vorher und `verify(...)` nachher
+* `when()` im `given`-Block kann verwirren
+* Mocking und `verify()` = doppelt gemoppelt
 --
+
+=== Spock
+
+[source,groovy,indent=0]
+----
+include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=16..27]
+----
+
+[.notes]
+--
+* Mocking ist in Spock direkt eingebaut
+--
+
+// argument capture?
 
 == Fehlermeldungen
 
