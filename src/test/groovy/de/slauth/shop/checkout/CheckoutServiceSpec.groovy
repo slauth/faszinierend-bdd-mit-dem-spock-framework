@@ -6,7 +6,11 @@ import de.slauth.shop.discount.DiscountCalculator
 import de.slauth.shop.Order
 import spock.lang.Specification
 
+import java.time.LocalDate
+
 class CheckoutServiceSpec extends Specification {
+
+    def today = LocalDate.now()
 
     def discountCalculator = Mock(DiscountCalculator)
     def paymentGateway = Mock(PaymentGateway)
@@ -16,7 +20,7 @@ class CheckoutServiceSpec extends Specification {
 
     void "charges the order total minus the discount"() {
         given:
-            def customer = new Customer(null)
+            def customer = new Customer(today)
             def order = new Order(100.00)
 
         when:
@@ -29,7 +33,7 @@ class CheckoutServiceSpec extends Specification {
 
     void "sends an order confirmation"() {
         given:
-            def customer = new Customer(null)
+            def customer = new Customer(today)
             def order = new Order(100.00)
             discountCalculator.discountFor(customer, order) >> 15.00
 

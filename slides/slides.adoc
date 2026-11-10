@@ -2,7 +2,7 @@
 Sebastian Lauth, Deichmann SE
 :customcss: deichmann.css
 :imagesdir: images
-:revdate: 15.10.2026
+:revdate: 10.11.2026
 :revealjs_controlsLayout: edges
 :revealjs_controlsTutorial: false
 :revealjs_fragmentInURL: true
@@ -24,10 +24,14 @@ Sebastian Lauth, Deichmann SE
 [quote,https://spockframework.org/]
 Spock is a *testing*, *specification*, and *mocking* framework for JVM developers that emphasizes *readability* and *clarity*.
 
-== Wozu überhaupt?
+== Und wozu?
 
-[%step]
 Für Tests haben wir doch *JUnit*.
+
+[.notes]
+--
+* *testing* und *mocking* deckt es gut ab
+--
 
 === Der perfekte Test
 
@@ -41,9 +45,12 @@ Ein guter Test zeigt auf einen Blick zwei Dinge:
 . ob sie dies _tatsächlich_ macht +
    (→ *Verifikation*)
 
+[%step]
+image::venn.svg[height=600]
+
 [.notes]
 --
-* JUnit: Fokus auf *2.*
+* JUnit: Fokus auf *Verifikation*
 * Trend zum *Spec Driven Development* (mit Markdown)
 * Spock (im Gegensatz zu Markdown) = *ausführbare* Specs
 --
@@ -58,8 +65,11 @@ Ein guter Test zeigt auf einen Blick zwei Dinge:
 include::../src/test/java/de/slauth/shop/discount/MyFirstTest.java[lines=16..22]
 ----
 
-. Spezifikation… 🤔❓😵‍💫
+[%step]
+. Spezifikation… 😵‍💫❓
 . Verifikation… ✅
+
+=== Wie bekomme ich das *lesbarer* hin? 🤔
 
 === *„Wales Style“*
 
@@ -103,7 +113,7 @@ include::../src/test/java/de/slauth/shop/discount/ParameterizedStyleTest.java[li
 * Testdaten getrennt vom Test, verknüpft über String 🙁
 --
 
-=== *Spock Data Tables FTW* 🖖
+=== *Meet Spock* 🖖
 
 [source,groovy,indent=0]
 ----
@@ -120,11 +130,12 @@ include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groov
 
 == Beispiel: *interaktionsbasierter* Test
 
+[%notitle]
 === JUnit
 
 [source,java,indent=0]
 ----
-include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines=25..39]
+include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines=29..43]
 ----
 
 [.notes]
@@ -133,11 +144,11 @@ include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines
 * Mocking und `verify()` = doppelt gemoppelt
 --
 
-=== Spock
+=== *Meet Spock* 🖖
 
 [source,groovy,indent=0]
 ----
-include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=17..28]
+include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=21..32]
 ----
 
 [.notes]
@@ -153,11 +164,12 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
 * `equals` reicht nicht → übergebenes Argument „einfangen“ und dann prüfen
 --
 
+[%notitle]
 === JUnit
 
 [source,java,indent=0]
 ----
-include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines=41..61]
+include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines=45..64]
 ----
 
 [.notes]
@@ -168,11 +180,11 @@ include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines
 * Drei Schritte (deklarieren → einfangen → auspacken) für eine Prüfung
 --
 
-=== Spock
+=== *Meet Spock* 🖖
 
 [source,groovy,indent=0]
 ----
-include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=30..46]
+include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=34..50]
 ----
 
 [.notes]
@@ -215,13 +227,13 @@ calculator.discountFor(customer, order) == expected
 
 // TODO
 
-[%step]
 == Einstieg ohne Big Bang
 
+[%step]
 * Spock läuft auf der JUnit-Platform
-    ** gleicher Maven-/Gradle-Build
-    ** gleiche IDE
-    ** gleiche CI
+    ** _gleicher_ Maven-/Gradle-Build
+    ** _gleiche_ IDE
+    ** _gleiche_ CI
 * Produktionscode bleibt Java
 * Spock-Specs und JUnit-Tests leben friedlich nebeneinander 🖖
 
@@ -242,3 +254,8 @@ calculator.discountFor(customer, order) == expected
 --
 * Und der Einstieg kostet fast nichts – einfach ausprobieren 🖖
 --
+
+== Vielen Dank!
+
+[%step]
+Mögen eure Tests *lange und in Frieden* leben! 🖖

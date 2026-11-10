@@ -35,6 +35,10 @@ span.big {
     margin-bottom: 1em;
 }
 
+.reveal li li {
+    margin-bottom: 0;
+}
+
 .reveal pre {
     font-size: .8em;
     max-width: 90%;
