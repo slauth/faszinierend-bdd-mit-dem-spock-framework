@@ -124,7 +124,7 @@ include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groov
 
 [source,java,indent=0]
 ----
-include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines=22..36]
+include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines=25..39]
 ----
 
 [.notes]
@@ -137,7 +137,7 @@ include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines
 
 [source,groovy,indent=0]
 ----
-include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=16..27]
+include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=17..28]
 ----
 
 [.notes]
@@ -145,7 +145,43 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
 * Mocking ist in Spock direkt eingebaut
 --
 
-// argument capture?
+== Beispiel: *Argument Capture*
+
+[.notes]
+--
+* Szenario: Service erzeugt selbst ein Objekt (mit generierter Bestellnummer) und übergibt es an einen Mock
+* `equals` reicht nicht → übergebenes Argument „einfangen“ und dann prüfen
+--
+
+=== JUnit
+
+[source,java,indent=0]
+----
+include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines=41..61]
+----
+
+[.notes]
+--
+* `ArgumentCaptor` muss vorab deklariert werden – inkl. Generics-Boilerplate
+* `capture()` versteckt sich *innerhalb* von `verify()`
+* Danach `getValue()` holen und Feld für Feld mit AssertJ prüfen
+* Drei Schritte (deklarieren → einfangen → auspacken) für eine Prüfung
+--
+
+=== Spock
+
+[source,groovy,indent=0]
+----
+include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=30..46]
+----
+
+[.notes]
+--
+* Kein Captor: die Erwartung an das Argument steht direkt in der Interaktion
+* Jede Zeile in der Closure ist eine Assertion
+* Bei Fehlschlag zeigt die Power Assertion, *welches* Feld nicht passt:
+   ** `it.total == 86.00` → `85.00 false`
+--
 
 == Fehlermeldungen
 
@@ -179,6 +215,7 @@ calculator.discountFor(customer, order) == expected
 
 // TODO
 
+[%step]
 == Einstieg ohne Big Bang
 
 * Spock läuft auf der JUnit-Platform
