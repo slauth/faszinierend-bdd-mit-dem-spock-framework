@@ -1,5 +1,5 @@
 = Faszinierend!: BDD mit dem Spock Framework 🖖
-Sebastian Lauth, Deichmann SE
+Sebastian Lauth · Tech & Team Lead · Deichmann SE
 :customcss: deichmann.css
 :imagesdir: images
 :revdate: 10.11.2026
@@ -19,21 +19,46 @@ Sebastian Lauth, Deichmann SE
 :highlightjs-languages: java, groovy
 :highlightjs-theme: reveal.js/dist/plugin/highlight/custom.css
 
-== Was ist das Spock Framework?
+[.columns]
+== Wer bin ich? 🖖
+
+[.column]
+* *Sebastian Lauth*
+* ~20J Enterprise Backend Development (Java/JVM)
+* Tech & Team Lead @ Deichmann SE 👟💚
+
+[.column.is-one-third]
+image::me.png[height=600]
+
+[.notes]
+--
+* Deichmann ist eine Gruppe, zu der z. B. auch Snipes gehört
+* in 34 Ländern aktiv
+* 4.700 Filialen
+* 41 Online-Shops
+--
+
+== Was ist das Spock Framework? 🖖
 
 [quote,https://spockframework.org/]
 Spock is a *testing*, *specification*, and *mocking* framework for JVM developers that emphasizes *readability* and *clarity*.
 
-== Und wozu?
+[.notes]
+--
+* Überleitung: *testing* und *mocking*
+--
+
+== Und wozu? 🤔
 
 Für Tests haben wir doch *JUnit*.
 
 [.notes]
 --
-* *testing* und *mocking* deckt es gut ab
+* *testing* und *mocking* deckt JUnit gut ab
+* aber *specification*, *readability* und *clarity*…?
 --
 
-=== Der perfekte Test
+=== Der perfekte Test 💯
 
 [%step]
 Ein guter Test zeigt auf einen Blick zwei Dinge:
@@ -50,15 +75,15 @@ image::venn.svg[height=600]
 
 [.notes]
 --
-* JUnit: Fokus auf *Verifikation*
-* Trend zum *Spec Driven Development* (mit Markdown)
-* Spock (im Gegensatz zu Markdown) = *ausführbare* Specs
+* rechts = JUnit: *Verifikation*
+* links = *Spec Driven Development* (mit Markdown)
+* Spock = *ausführbare* Spezifikationen
+   ** im Kontext des Spock Frameworks reden wir von *Specs*, nicht Tests
 --
 
-== Beispiel: *datengetriebener* Test
+== Beispiel: *datengetriebener* Test 🧑‍💻
 
-[%notitle]
-=== JUnit 1
+=== Beispiel: *datengetriebener* Test 🧑‍💻
 
 [source,java,indent=0]
 ----
@@ -71,17 +96,16 @@ include::../src/test/java/de/slauth/shop/discount/MyFirstTest.java[lines=16..22]
 
 === Wie bekomme ich das *lesbarer* hin? 🤔
 
-=== *„Wales Style“*
+=== Wales Style 🏳️
 
 image::Llanfair_PG_railway_station_sign.jpg[height=800]
 
 [.notes]
 --
-„Marienkirche in einer Mulde weißer Haseln in der Nähe des schnellen Wirbels und der Tysiliokirche bei der roten Höhle.“
+„Marienkirche in einer Mulde weißer Haseln in der Nähe des schnellen Wirbels …“
 --
 
-[%notitle]
-=== JUnit 2
+=== Wales Style 🏳️
 
 [source,java,indent=0]
 ----
@@ -90,15 +114,14 @@ include::../src/test/java/de/slauth/shop/discount/WalesStyleTest.java[lines=16..
 
 [.notes]
 --
-* sieht nach ganz normalem Code aus, nicht nach Test
-* ganz unten `assertEquals`… kann auch vergessen werden
-    ** Test bleibt trotzdem grün
+* *Probleme*:
+   ** Name und Code laufen auseinander
+   ** Wartbarkeit
 --
 
-=== *`@Parameterized`*
+=== BDD Struktur + *`@ParameterizedTest`*
 
-[%notitle]
-=== JUnit 3
+=== BDD Struktur + *`@ParameterizedTest`*
 
 [source,java,indent=0]
 ----
@@ -107,13 +130,15 @@ include::../src/test/java/de/slauth/shop/discount/ParameterizedStyleTest.java[li
 
 [.notes]
 --
-* given, when, then
-   ** (oder auch arrange, act, assert)
+* `given`, `when`, `then`
+   ** reine Konvention / nur über Kommentare
+   ** `then` kann auch vergessen werden
+      *** Test bleibt trotzdem grün
 * *AssertJ* für bessere Fehlermeldungen
 * Testdaten getrennt vom Test, verknüpft über String 🙁
 --
 
-=== *Meet Spock* 🖖
+=== Spock 🖖
 
 [source,groovy,indent=0]
 ----
@@ -122,16 +147,22 @@ include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groov
 
 [.notes]
 --
-* Spock nutzt Groovy → sprechende Methodennamen möglich
-* JUnit: `// given`, `// when`, `// then` sind nur Kommentare – nichts erzwingt die Struktur
-* Spock: Blöcke sind echte Syntax, der Testname ist ein Satz in natürlicher Sprache
-* Im `then:`/`expect:`-Block ist jede Zeile eine Assertion – kein `assertEquals` nötig
+* Spock basiert auf Groovy
+   ** sprechende Methodennamen möglich
+* Blöcke sind echte Syntax, `then` kann nicht vergessen werden
+* Im `then:`/`expect:`-Block ist jede Zeile eine Assertion – kein `assertEquals` etc. nötig
 --
 
-== Beispiel: *interaktionsbasierter* Test
+== Beispiel: *interaktionsbasierter* Test 🧑‍💻
 
-[%notitle]
-=== JUnit
+[.notes]
+--
+* *datengetriebene* Tests sind wichtig
+   ** Input bestimmt Output
+* _manchmal_ wollen wir aber auch *Interaktionen* spezifizieren
+--
+
+=== Beispiel: *interaktionsbasierter* Test 🧑‍💻
 
 [source,java,indent=0]
 ----
@@ -140,11 +171,14 @@ include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines
 
 [.notes]
 --
-* `when()` im `given`-Block kann verwirren
+* `CheckoutService` soll `DiscountCalculator` verwenden und dann den korrekten Betrag verrechnen
+* Unit-Test → `DiscountCalculator` muss gemockt werden
+   ** Mockito `when()` im `given`-Block ist verwirrend
+      *** (es gibt theoretisch `BDDMockito` dafür)
 * Mocking und `verify()` = doppelt gemoppelt
 --
 
-=== *Meet Spock* 🖖
+=== Spock 🖖
 
 [source,groovy,indent=0]
 ----
@@ -154,9 +188,11 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
 [.notes]
 --
 * Mocking ist in Spock direkt eingebaut
+   ** sehr gut lesbar
+* Mocking und Verifikation in einer Zeile
 --
 
-== Beispiel: *Argument Capture*
+== Beispiel: *Argument Capture* 🧑‍💻
 
 [.notes]
 --
@@ -164,8 +200,7 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
 * `equals` reicht nicht → übergebenes Argument „einfangen“ und dann prüfen
 --
 
-[%notitle]
-=== JUnit
+=== Beispiel: *Argument Capture* 🧑‍💻
 
 [source,java,indent=0]
 ----
@@ -180,7 +215,7 @@ include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines
 * Drei Schritte (deklarieren → einfangen → auspacken) für eine Prüfung
 --
 
-=== *Meet Spock* 🖖
+=== Spock 🖖
 
 [source,groovy,indent=0]
 ----
@@ -195,17 +230,37 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
    ** `it.total == 86.00` → `85.00 false`
 --
 
-== Fehlermeldungen
+== Output bei Fehlschlägen ❌
 
-=== JUnit
+[.notes]
+--
+* nicht nur der Code ist lesbarer
+* auch der Output bei Fehlschlägen
+--
+
+=== JUnit / AssertJ 🤔
 
 ----
-org.opentest4j.AssertionFailedError: expected: <0> but was: <1>
+[ERROR] de.slauth.shop.discount.ParameterizedStyleTest.calculatesDiscount(LocalDate,
+BigDecimal, BigDecimal)[2] -- Time elapsed: 0.008 s <<< FAILURE!
+
+org.opentest4j.AssertionFailedError:
+
+expected: 5.00
+ but was: 0.00
 ----
 
-=== Spock
+[.notes]
+--
+* `@ParameterizedTest(name = "{0}")` wird standardmäßig vom `maven-surefire-plugin` ignoriert
+--
+
+=== Spock 💡
 
 ----
+[ERROR] de.slauth.shop.discount.DiscountCalculatorSpec.member since 2026-11-13, order of
+100.00 EUR gets 5.00 EUR discount -- Time elapsed: 0.144 s <<< FAILURE!
+
 Condition not satisfied:
 
 calculator.discountFor(customer, order) == expected
@@ -213,8 +268,8 @@ calculator.discountFor(customer, order) == expected
 |          0.00        |         |      |  5.00
 |                      |         |      false
 |                      |         Order[total=100.00]
-|                      Customer[memberSince=2026-10-05]
-<de.slauth.spock.discount.DiscountCalculator@6401d0a0>
+|                      Customer[memberSince=2026-11-13]
+<de.slauth.shop.discount.DiscountCalculator@1f992a3a>
 ----
 
 [.notes]
@@ -223,14 +278,35 @@ calculator.discountFor(customer, order) == expected
 * Kein Debugger, kein AssertJ/Hamcrest-DSL nötig
 --
 
-== Integrationstests
+== Integrationstests 🔗
 
 // TODO
 
-== Einstieg ohne Big Bang
+=== UI Tests 🖥️
+
+----
+class HomepageSpec extends GebSpec {
+
+    def "can access settings from homepage"() {
+        given:
+            to HomePage
+
+        when:
+            nav.open()
+            nav.links[0].click()
+
+         then:
+            at SettingsPage
+   }
+}
+----
+
+via Geb (https://groovy.apache.org/geb)
+
+== Einstieg ohne Big Bang ✅
 
 [%step]
-* Spock läuft auf der JUnit-Platform
+* Spock läuft auf der *JUnit-Platform*
     ** _gleicher_ Maven-/Gradle-Build
     ** _gleiche_ IDE
     ** _gleiche_ CI
@@ -239,14 +315,14 @@ calculator.discountFor(customer, order) == expected
 
 [.notes]
 --
-* Antwort auf „Muss ich alles auf einmal umstellen?“ – nein
+* „Muss ich alles auf einmal umstellen?“ → nein
 * Vorschlag: nächsten neuen Test als Spec schreiben
 --
 
 == 3 Dinge zum Mitnehmen
 
 [%step]
-. *Lesbar:* Given-When-Then als echte Struktur – Specs, die sowohl das Business als auch dein KI-Agent versteht
+. *Lesbar & klar:* Given-When-Then als _echte_ Struktur – Specs, die sowohl das Business als auch dein KI-Agent versteht
 . *Datengetrieben:* `where:`-Tabellen statt `@MethodSource`
 . *Aussagekräftig:* Power Assertions erklären jeden Fehlschlag
 

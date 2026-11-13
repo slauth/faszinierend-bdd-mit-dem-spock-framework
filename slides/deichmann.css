@@ -41,7 +41,7 @@ span.big {
 
 .reveal pre {
     font-size: .8em;
-    max-width: 90%;
+    width: 96%;
 }
 
 .reveal pre code {

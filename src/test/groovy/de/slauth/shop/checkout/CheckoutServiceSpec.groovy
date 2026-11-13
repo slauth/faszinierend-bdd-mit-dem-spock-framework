@@ -12,11 +12,11 @@ class CheckoutServiceSpec extends Specification {
 
     def today = LocalDate.now()
 
-    def discountCalculator = Mock(DiscountCalculator)
+    def calculator = Mock(DiscountCalculator)
     def paymentGateway = Mock(PaymentGateway)
     def confirmationMailer = Mock(ConfirmationMailer)
 
-    def service = new CheckoutService(discountCalculator, paymentGateway, confirmationMailer)
+    def service = new CheckoutService(calculator, paymentGateway, confirmationMailer)
 
     void "charges the order total minus the discount"() {
         given:
@@ -27,7 +27,7 @@ class CheckoutServiceSpec extends Specification {
             service.checkout(customer, order)
 
         then:
-            1 * discountCalculator.discountFor(customer, order) >> 15.00
+            1 * calculator.discountFor(customer, order) >> 15.00
             1 * paymentGateway.charge(customer, 85.00)
     }
 
@@ -35,7 +35,7 @@ class CheckoutServiceSpec extends Specification {
         given:
             def customer = new Customer(today)
             def order = new Order(100.00)
-            discountCalculator.discountFor(customer, order) >> 15.00
+            calculator.discountFor(customer, order) >> 15.00
 
         when:
             service.checkout(customer, order)
