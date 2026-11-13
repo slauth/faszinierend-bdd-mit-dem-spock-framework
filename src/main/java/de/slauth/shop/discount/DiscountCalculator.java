@@ -31,7 +31,7 @@ public class DiscountCalculator {
 
     private boolean isLargeOrder(Order order) {
         var threshold = new BigDecimal("100.00");
-        return order.total().compareTo(threshold) > 0;
+        return order.total().compareTo(threshold) >= 0;
     }
 
     private boolean isLoyalMember(Customer customer) {

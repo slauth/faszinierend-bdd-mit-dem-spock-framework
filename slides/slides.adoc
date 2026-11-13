@@ -280,10 +280,27 @@ calculator.discountFor(customer, order) == expected
 
 == Integrationstests 🔗
 
-// TODO
+[.notes]
+--
+* bisher haben wir uns nur Unit-Tests angesehen
+* Spock kann auch problemlos für Integrationstests verwendet werden
+--
 
-=== UI Tests 🖥️
+=== Integrationstests 🔗
 
+* funktioniert auch problemlos mit `@SpringBootTest` +
+  (und mit `@WebMvcTest`, `@DataJpaTest`, `@JsonTest`, `@RestClientTest`, …)
+
+[source,groovy,indent=0]
+----
+include::../src/test/groovy/de/slauth/shop/discount/DiscountControllerIntegrationSpec.groovy[lines=30..49]
+----
+
+=== UI Tests (Spock + Geb) 🖥️
+
+Geb: https://groovy.apache.org/geb
+
+[source,groovy]
 ----
 class HomepageSpec extends GebSpec {
 
@@ -301,9 +318,7 @@ class HomepageSpec extends GebSpec {
 }
 ----
 
-via Geb (https://groovy.apache.org/geb)
-
-== Einstieg ohne Big Bang ✅
+== Einstieg ohne Big Bang 🤝
 
 [%step]
 * Spock läuft auf der *JUnit-Platform*
@@ -319,11 +334,13 @@ via Geb (https://groovy.apache.org/geb)
 * Vorschlag: nächsten neuen Test als Spec schreiben
 --
 
-== 3 Dinge zum Mitnehmen
+== 3 Dinge zum Mitnehmen 💡
 
 [%step]
-. *Lesbar & klar:* Given-When-Then als _echte_ Struktur – Specs, die sowohl das Business als auch dein KI-Agent versteht
-. *Datengetrieben:* `where:`-Tabellen statt `@MethodSource`
+. *Lesbar & klar:* `given`-`when`-`then` als _echte_ Struktur – ausführbare Specs, +
+die sowohl das Business als auch dein KI-Agent versteht
+. *Datengetrieben:* übersichtliche `where:`-Tabellen direkt am Test +
+statt verteilter `@MethodSource`
 . *Aussagekräftig:* Power Assertions erklären jeden Fehlschlag
 
 [.notes]
