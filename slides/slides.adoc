@@ -288,9 +288,11 @@ calculator.discountFor(customer, order) == expected
 
 === Integrationstests 🔗
 
+[%step]
 * funktioniert auch problemlos mit `@SpringBootTest` +
   (und mit `@WebMvcTest`, `@DataJpaTest`, `@JsonTest`, `@RestClientTest`, …)
 
+[%step]
 [source,groovy,indent=0]
 ----
 include::../src/test/groovy/de/slauth/shop/discount/DiscountControllerIntegrationSpec.groovy[lines=30..49]
@@ -304,7 +306,7 @@ Geb: https://groovy.apache.org/geb
 ----
 class HomepageSpec extends GebSpec {
 
-    def "can access settings from homepage"() {
+    void "can access settings from homepage"() {
         given:
             to HomePage
 
@@ -315,6 +317,17 @@ class HomepageSpec extends GebSpec {
          then:
             at SettingsPage
    }
+}
+
+class HomePage extends Page {
+    static at = { title.startsWith("Welcome") }
+    static content = {
+        nav { module(NavModule) }
+    }
+}
+
+class SettingsPage extends Page {
+    static at = { title == "Settings" }
 }
 ----
 
@@ -348,7 +361,7 @@ statt verteilter `@MethodSource`
 * Und der Einstieg kostet fast nichts – einfach ausprobieren 🖖
 --
 
-== Vielen Dank!
+== Vielen Dank! 💚
 
 [%step]
 Mögen eure Tests *lange und in Frieden* leben! 🖖
