@@ -21,6 +21,10 @@ span.line-through {
 span.big {
     font-size: 3em;
 }
+span.small {
+    font-size: .6em;
+}
+
 .is-vcentered {
     display: flex !important;
     justify-content: center;

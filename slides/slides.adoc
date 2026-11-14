@@ -142,13 +142,15 @@ include::../src/test/java/de/slauth/shop/discount/ParameterizedStyleTest.java[li
 
 [source,groovy,indent=0]
 ----
-include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groovy[lines=17..36]
+include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groovy[lines=17..33]
 ----
 
 [.notes]
 --
-* Spock basiert auf Groovy
-   ** sprechende Methodennamen möglich
+* Spock basiert auf Groovy → bessere Lesbarkeit
+    ** Strings als Methodennamen
+    ** `BigDecimal` ist Default
+    ** `==` bedeutet `equals`
 * Blöcke sind echte Syntax, `then` kann nicht vergessen werden
 * Im `then:`/`expect:`-Block ist jede Zeile eine Assertion – kein `assertEquals` etc. nötig
 --
@@ -314,9 +316,9 @@ class HomepageSpec extends GebSpec {
             nav.open()
             nav.links[0].click()
 
-         then:
+        then:
             at SettingsPage
-   }
+    }
 }
 
 class HomePage extends Page {
@@ -331,15 +333,27 @@ class SettingsPage extends Page {
 }
 ----
 
+[.notes]
+--
+* Geb baut auf Spock auf
+* Page Object Pattern
+--
+
+[.columns]
 == Einstieg ohne Big Bang 🤝
 
+[.column.is-two-fifths]
 [%step]
-* Spock läuft auf der *JUnit-Platform*
+* Spock 2.x läuft auf der +
+*JUnit-Platform*
     ** _gleicher_ Maven-/Gradle-Build
     ** _gleiche_ IDE
     ** _gleiche_ CI
 * Produktionscode bleibt Java
 * Spock-Specs und JUnit-Tests leben friedlich nebeneinander 🖖
+
+[.column]
+image::junit6_architektur.svg[]
 
 [.notes]
 --
@@ -363,5 +377,10 @@ statt verteilter `@MethodSource`
 
 == Vielen Dank! 💚
 
-[%step]
 Mögen eure Tests *lange und in Frieden* leben! 🖖
+
+[.fragment, step=1]
+image::qrcode_github.svg[width=400]
+
+[.fragment, step=1]
+[.small]#https://github.com/slauth/faszinierend-bdd-mit-dem-spock-framework#
