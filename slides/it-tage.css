@@ -40,9 +40,6 @@ span.small {
 .reveal pre code .s {
     color: var(--color-accent-1);
 }
-.reveal pre code[data-lang="groovy"] .s2 {
-    color: #8250df;
-}
 
 .reveal .quoteblock blockquote {
     box-shadow: none;
