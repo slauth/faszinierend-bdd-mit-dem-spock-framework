@@ -1,0 +1,125 @@
+/* spock-reports: Übersicht (index.html) im Stil von slides/deichmann.css */
+
+:root {
+  --color-white: #fff;
+  --color-black: #000;
+  --color-accent-1: #009661;
+  --color-accent-1-lighten: #c9ffec;
+  --color-accent-2: #00422B;
+  --color-grey-light: #f4f6f5;
+  --color-grey: #666;
+  --color-fail: #c62828;
+  --color-fail-lighten: #fde8e8;
+  --color-error: #e65100;
+  --color-error-lighten: #fff0e0;
+}
+
+body {
+  font-family: "Deichmann Next", Helvetica, Arial, sans-serif;
+  color: var(--color-black);
+  background: var(--color-white);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px 32px;
+  border-top: 8px solid var(--color-accent-1);
+}
+
+h2 {
+  font-family: "Deichmann Next ExtraBold", "Deichmann Next", Helvetica, Arial, sans-serif;
+  font-size: 2.2em;
+  margin: 32px 0 8px;
+}
+
+h3 {
+  font-weight: 600;
+  margin-top: 32px;
+  color: var(--color-accent-2);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+a {
+  color: var(--color-accent-1);
+}
+
+a:hover {
+  color: var(--color-accent-2);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.ignored {
+  color: var(--color-grey);
+}
+
+div.project-header {
+  margin-bottom: 10px;
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+div.project-header > span.project-version {
+  padding-left: 20px;
+  color: var(--color-grey);
+  font-weight: normal;
+}
+
+div.date-test-ran {
+  font-size: small;
+  color: var(--color-grey);
+  margin-bottom: 12px;
+}
+
+div.spec-title {
+  padding: 10px 0 5px 0;
+}
+
+table.summary-table {
+  width: 100%;
+  text-align: left;
+  font-size: .95em;
+}
+
+table.summary-table th {
+  background: var(--color-accent-2);
+  color: var(--color-white);
+  font-weight: 600;
+  padding: 10px 12px;
+}
+
+table.summary-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+table.summary-table tbody tr:nth-child(even) td {
+  background: var(--color-grey-light);
+}
+
+table.summary-table tbody tr:hover td {
+  background: var(--color-accent-1-lighten);
+}
+
+tr.failure td, td.failure {
+  color: var(--color-fail);
+  background: var(--color-fail-lighten) !important;
+  font-weight: 600;
+}
+
+tr.error td, td.error {
+  color: var(--color-error);
+  background: var(--color-error-lighten) !important;
+  font-weight: 600;
+}
+
+div.footer {
+  text-align: center;
+  font-size: small;
+  color: var(--color-grey);
+  margin-top: 16px;
+}

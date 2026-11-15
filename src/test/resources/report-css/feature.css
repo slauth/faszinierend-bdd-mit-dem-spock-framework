@@ -1,0 +1,335 @@
+/* spock-reports: Detailseite je Spec im Stil von slides/deichmann.css */
+
+:root {
+  --color-white: #fff;
+  --color-black: #000;
+  --color-accent-1: #009661;
+  --color-accent-1-lighten: #c9ffec;
+  --color-accent-2: #00422B;
+  --color-grey-light: #f4f6f5;
+  --color-grey: #666;
+  --color-fail: #c62828;
+  --color-fail-lighten: #fde8e8;
+  --color-error: #e65100;
+  --color-error-lighten: #fff0e0;
+}
+
+body {
+  font-family: "Deichmann Next", Helvetica, Arial, sans-serif;
+  color: var(--color-black);
+  background: var(--color-white);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px 32px;
+  border-top: 8px solid var(--color-accent-1);
+}
+
+h2 {
+  font-family: "Deichmann Next ExtraBold", "Deichmann Next", Helvetica, Arial, sans-serif;
+  font-size: 2.2em;
+  margin: 32px 0 8px;
+}
+
+h3 {
+  font-weight: 600;
+  margin-top: 32px;
+  color: var(--color-accent-2);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+a {
+  color: var(--color-accent-1);
+}
+
+a:hover {
+  color: var(--color-accent-2);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.back-link {
+  font-size: small;
+  margin: 8px 0;
+}
+
+div.date-test-ran {
+  font-size: small;
+  color: var(--color-grey);
+  margin-bottom: 12px;
+}
+
+.return-toc {
+  float: right;
+  font-size: 60%;
+  text-align: right;
+}
+
+.return-toc a {
+  color: inherit;
+}
+
+/* Kopfzeilen-Tabelle (Summary) */
+table.summary-table {
+  width: 100%;
+  text-align: left;
+  font-size: .95em;
+}
+
+table.summary-table th {
+  background: var(--color-accent-2);
+  color: var(--color-white);
+  font-weight: 600;
+  padding: 10px 12px;
+}
+
+table.summary-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+/* @Title / @Narrative */
+pre.title {
+  font-family: inherit;
+  font-size: 1.6em;
+  font-weight: 600;
+  color: var(--color-accent-2);
+  white-space: pre-wrap;
+}
+
+pre.narrative {
+  font-family: inherit;
+  font-size: 1.15em;
+  font-style: italic;
+  line-height: 1.5;
+  color: #333;
+  white-space: pre-wrap;
+  border-left: 4px solid var(--color-accent-1);
+  padding-left: 16px;
+}
+
+/* Inhaltsverzeichnis */
+ul#toc {
+  padding-left: 20px;
+  line-height: 1.7;
+}
+
+.feature-toc-pass {
+  color: var(--color-accent-1);
+}
+
+.feature-toc-failure {
+  color: var(--color-fail);
+  font-weight: 600;
+}
+
+.feature-toc-error {
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+.feature-toc-ignored {
+  color: var(--color-grey);
+}
+
+/* Features */
+table.features-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 2px;
+}
+
+.feature-description {
+  font-size: 1.2em;
+  font-weight: 600;
+  background: var(--color-accent-1);
+  color: var(--color-white);
+  padding: 14px 16px;
+  margin-top: 28px;
+  border-radius: 6px 6px 0 0;
+}
+
+.feature-description.failure {
+  background: var(--color-fail);
+}
+
+.feature-description.error {
+  background: var(--color-error);
+}
+
+.feature-description.ignored {
+  background: #bbb;
+}
+
+.feature-description.ignored .reason {
+  color: var(--color-black);
+  font-style: italic;
+  font-size: small;
+}
+
+col.block-kind-col {
+  width: 110px;
+}
+
+table td {
+  min-width: 50px;
+  vertical-align: top;
+}
+
+div.block-kind {
+  margin: 6px 4px;
+  font-weight: 600;
+  color: var(--color-accent-2);
+}
+
+div.block-text {
+  margin: 6px 4px;
+  font-size: 1.05em;
+}
+
+div.extra-info {
+  font-size: small;
+}
+
+div.spec-headers {
+  margin: 4px;
+  font-style: italic;
+}
+
+span.spec-header {
+  font-weight: bold;
+}
+
+div.spec-status {
+  font-style: italic;
+}
+
+.ignored {
+  color: var(--color-grey);
+}
+
+div.issues {
+  margin-top: 6px;
+  padding: 10px;
+  background-color: #fff8d6;
+  border-left: 4px solid #e0b400;
+  font-size: small;
+  max-width: 50%;
+}
+
+div.pending-feature {
+  background-color: var(--color-accent-2);
+  color: var(--color-white);
+  margin-top: 6px;
+  padding: 5px;
+  text-align: center;
+  font-size: small;
+  max-width: 120px;
+  border-radius: 4px;
+}
+
+/* Where-Tabelle */
+table.ex-table {
+  margin: 6px 4px;
+  font-size: .95em;
+}
+
+table.ex-table th {
+  background: var(--color-accent-2);
+  color: var(--color-white);
+  font-weight: 600;
+  padding: 8px 14px;
+  text-align: left;
+}
+
+table.ex-table td {
+  background: var(--color-grey-light);
+  padding: 6px 14px;
+  border-bottom: 1px solid #e3e3e3;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+td.ex-result {
+  text-align: center;
+  background: var(--color-white) !important;
+  font-family: inherit !important;
+}
+
+.ex-time {
+  font-size: smaller;
+  color: var(--color-grey);
+  font-weight: normal;
+}
+
+tr.ex-pass td.ex-result span:first-child,
+.ex-pass {
+  color: var(--color-accent-1);
+  font-weight: 600;
+}
+
+.ex-fail {
+  color: var(--color-fail);
+  font-weight: 600;
+}
+
+tr.ex-fail td {
+  background: var(--color-fail-lighten) !important;
+}
+
+/* Fehlerdetails */
+div.problem-description {
+  padding: 12px 16px;
+  background: var(--color-fail-lighten);
+  border-left: 4px solid var(--color-fail);
+  border-radius: 4px;
+}
+
+div.problem-header {
+  font-weight: bold;
+  color: var(--color-fail);
+}
+
+div.problem-list pre {
+  white-space: pre-wrap;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+/* Quellcode (showCodeBlocks=true) */
+pre.block-source {
+  background-color: var(--color-grey-light);
+  border-left: 4px solid var(--color-accent-1);
+  padding: 10px 14px;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+pre.block-source.error {
+  background-color: var(--color-fail-lighten);
+  border-left-color: var(--color-fail);
+  color: var(--color-fail);
+  font-weight: bold;
+}
+
+pre.block-source.before-error {
+  margin-bottom: -14px;
+}
+
+pre.block-source.after-error {
+  color: var(--color-grey);
+  margin-top: -14px;
+}
+
+pre.block-source.post-error {
+  color: var(--color-grey);
+}
+
+div.footer {
+  text-align: center;
+  font-size: small;
+  color: var(--color-grey);
+  margin-top: 16px;
+}

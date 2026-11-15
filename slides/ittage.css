@@ -1,9 +1,8 @@
 :root {
     --color-white: #fff;
     --color-black: #000;
-    --color-accent-1: #009661;
-    --color-accent-1-lighten: #c9ffec;
-    --color-accent-2: #00422B;
+    --color-accent-1: #0066b3;
+    --color-accent-1-lighten: #b2deff; /* 75% white tint */
     --r-heading-color: var(--color-black);
     --r-heading-font: "Deichmann Next";
     --r-heading-text-transform: none;
@@ -14,21 +13,8 @@
 }
 
 /* general */
-span.line-through {
-    color: #666;
-    text-decoration: line-through;
-}
-span.big {
-    font-size: 3em;
-}
 span.small {
     font-size: .6em;
-}
-
-.is-vcentered {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
 }
 
 .reveal a {
@@ -58,6 +44,16 @@ span.small {
     color: #8250df;
 }
 
+.reveal .quoteblock blockquote {
+    box-shadow: none;
+    line-height: 1.5em;
+    margin-top: 1.5em;
+}
+
+.reveal .quoteblock .attribution {
+    margin-top: 1.5em;
+}
+
 .reveal .listingblock .title {
     font-family: monospace;
 }
@@ -69,11 +65,15 @@ span.small {
 
 /* title slide */
 body.title {
-    background: linear-gradient(45deg, var(--color-accent-2) 0%, var(--color-accent-1) 100%);
+    background: var(--color-accent-1);
 }
 
 .reveal .title .slide-background-content {
-    background: url("images/deichmann-wortmarke.svg") calc(100% - 38px) calc(100% - 38px) no-repeat, url("images/deichmann-logo-weiss.svg") calc(100% - 38px) 38px no-repeat;
+    background: url("images/IT-Tage-2026-Banner.png") 100% 30% no-repeat;
+}
+
+.reveal section.title h1 {
+    margin-top: 4em;
 }
 
 .reveal section.title h1, .reveal section.title h2, .reveal section.title p.byline {
@@ -87,19 +87,10 @@ body.title {
 
 /* all slides */
 .reveal .slide-background-content {
-    background: var(--color-white) url("images/deichmann-logo-gruen.svg") calc(100% - 38px) calc(100% - 38px) no-repeat;
-}
-.reveal .full-background .slide-background-content {
-    background-color: var(--color-white);
-    background-position: 50% 50%;
-    background-size: contain;
+    background: var(--color-white) url("images/ITT-Logo-Farbe-2026.svg") calc(100% - 32px) 100% no-repeat;
+    background-size: 128px 128px;
 }
 
 .reveal h1 {
     font-family: "Deichmann Next ExtraBold", sans-serif;
-}
-
-/* last slide */
-.the-end .slide-background-content {
-    background: var(--color-accent-1) url("images/ deichmann-logo-weiss.svg") 50% 50% no-repeat;
 }

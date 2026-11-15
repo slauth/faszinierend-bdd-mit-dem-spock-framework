@@ -19,6 +19,8 @@
         <java.version>25</java.version>
         <spock.version>2.4-groovy-5.0</spock.version>
         <gmavenplus-plugin.version>5.1.0</gmavenplus-plugin.version>
+        <spock-reports.version>2.6.1-groovy-5.0</spock-reports.version>
+        <spock-reports.outputDir>${project.build.directory}/spock-reports</spock-reports.outputDir>
     </properties>
 
     <dependencyManagement>
@@ -63,6 +65,22 @@
             <artifactId>spock-spring</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.athaydes</groupId>
+            <artifactId>spock-reports</artifactId>
+            <version>${spock-reports.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.spockframework</groupId>
+                    <artifactId>spock-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.groovy</groupId>
+                    <artifactId>groovy</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
     <build>
@@ -88,6 +106,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <systemPropertyVariables>
+                        <com.athaydes.spockframework.report.outputDir>${spock-reports.outputDir}</com.athaydes.spockframework.report.outputDir>
+                    </systemPropertyVariables>
                     <includes>
                         <include>**/*Test.java</include>
                         <include>**/*Tests.java</include>
@@ -103,6 +124,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
+                    <systemPropertyVariables>
+                        <com.athaydes.spockframework.report.outputDir>${spock-reports.outputDir}</com.athaydes.spockframework.report.outputDir>
+                    </systemPropertyVariables>
                     <includes>
                         <include>**/*IT.java</include>
                         <include>**/*IntegrationSpec.java</include>

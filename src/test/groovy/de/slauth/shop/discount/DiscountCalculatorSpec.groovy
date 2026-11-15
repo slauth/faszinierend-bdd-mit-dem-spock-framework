@@ -14,16 +14,16 @@ class DiscountCalculatorSpec extends Specification {
 
     def calculator = new DiscountCalculator()
 
-    void "member since #memberSince, order of #total EUR gets #expected EUR discount" (
-            LocalDate memberSince, BigDecimal total, BigDecimal expected) {
-        given:
+    void "member since #memberSince, order of #total EUR gets #expected EUR discount" () {
+
+        given: "a customer with membership since #memberSince and with an order of #total EUR"
             def customer = new Customer(memberSince)
             def order = new Order(total)
 
-        expect:
+        expect: "a discount of #expected EUR"
             calculator.discountFor(customer, order) == expected
 
-        where:
+        where: "the discount rules are"
             memberSince         |  total || expected
             today               |  99.00 ||     0.00
             today               | 100.00 ||     5.00

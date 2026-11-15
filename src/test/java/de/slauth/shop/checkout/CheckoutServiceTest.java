@@ -54,6 +54,8 @@ class CheckoutServiceTest {
         service.checkout(customer, order);
 
         // then
+        verify(calculator, times(1)).discountFor(customer, order);
+
         ArgumentCaptor<OrderConfirmation> captor = ArgumentCaptor.forClass(OrderConfirmation.class);
         verify(confirmationMailer, times(1)).send(captor.capture());
         OrderConfirmation confirmation = captor.getValue();

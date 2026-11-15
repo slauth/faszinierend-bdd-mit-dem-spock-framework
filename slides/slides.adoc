@@ -1,6 +1,6 @@
 = Faszinierend!: BDD mit dem Spock Framework 🖖
 Sebastian Lauth · Tech & Team Lead · Deichmann SE
-:customcss: deichmann.css
+:customcss: ittage.css
 :imagesdir: images
 :revdate: 10.11.2026
 :revealjs_controlsLayout: edges
@@ -32,20 +32,25 @@ image::me.png[height=600]
 
 [.notes]
 --
-* Deichmann ist eine Gruppe, zu der z. B. auch Snipes gehört
-* in 34 Ländern aktiv
-* 4.700 Filialen
-* 41 Online-Shops
+* Deichmann ist eine *Unternehmensgruppe*, zu der z. B. auch Snipes gehört
+** in 34 Ländern aktiv
+** 4.700 Filialen
+** 41 Online-Shops
 --
 
 == Was ist das Spock Framework? 🖖
 
-[quote,https://spockframework.org/]
-Spock is a *testing*, *specification*, and *mocking* framework for JVM developers that emphasizes *readability* and *clarity*.
+[quote,'https://spockframework.org/[spockframework.org], übersetzt']
+„Spock ist ein +
+*Test-*, *Spezifikations-* und **Mocking-**Framework +
+für JVM-Entwickler, +
+das Wert auf *Lesbarkeit* und *Klarheit* legt.“
 
 [.notes]
 --
-* Überleitung: *testing* und *mocking*
+* *Lesbarkeit* und *Klarheit*
+   ** werden _immer wichtiger_, da wir mehr Code lesen
+* Überleitung: *Test* und *Mocking* = JUnit
 --
 
 == Und wozu? 🤔
@@ -54,14 +59,15 @@ Für Tests haben wir doch *JUnit*.
 
 [.notes]
 --
-* *testing* und *mocking* deckt JUnit gut ab
-* aber *specification*, *readability* und *clarity*…?
+* *Test* und *Mocking* deckt JUnit gut ab
+* aber *Spezifikation*, *Lesbarkeit* und *Klarheit*…?
+   ** wird _immer wichtiger_, da wir mehr Code lesen
 --
 
 === Der perfekte Test 💯
 
 [%step]
-Ein guter Test zeigt auf einen Blick zwei Dinge:
+… zeigt auf einen Blick zwei Dinge:
 
 [%step]
 . was die Anwendung machen _soll_ +
@@ -82,6 +88,13 @@ image::venn.svg[height=600]
 --
 
 == Beispiel: *datengetriebener* Test 🧑‍💻
+[.notes]
+--
+* *datengetrieben*: Input = Output
+* keine Seiteneffekte
+* perfekt für Unit-Tests
+--
+
 
 === Beispiel: *datengetriebener* Test 🧑‍💻
 
@@ -131,6 +144,7 @@ include::../src/test/java/de/slauth/shop/discount/ParameterizedStyleTest.java[li
 [.notes]
 --
 * `given`, `when`, `then`
+   ** _(Idee kurz erklären)_
    ** reine Konvention / nur über Kommentare
    ** `then` kann auch vergessen werden
       *** Test bleibt trotzdem grün
@@ -152,6 +166,7 @@ include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groov
     ** `BigDecimal` ist Default
     ** `==` bedeutet `equals`
 * Blöcke sind echte Syntax, `then` kann nicht vergessen werden
+* `expect` = `when` + `then` kombiniert
 * Im `then:`/`expect:`-Block ist jede Zeile eine Assertion – kein `assertEquals` etc. nötig
 --
 
@@ -174,7 +189,7 @@ include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines
 [.notes]
 --
 * `CheckoutService` soll `DiscountCalculator` verwenden und dann den korrekten Betrag verrechnen
-* Unit-Test → `DiscountCalculator` muss gemockt werden
+* Unit-Test → müssen `DiscountCalculator` mocken
    ** Mockito `when()` im `given`-Block ist verwirrend
       *** (es gibt theoretisch `BDDMockito` dafür)
 * Mocking und `verify()` = doppelt gemoppelt
@@ -184,7 +199,7 @@ include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines
 
 [source,groovy,indent=0]
 ----
-include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=21..32]
+include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=21..35]
 ----
 
 [.notes]
@@ -198,15 +213,15 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
 
 [.notes]
 --
-* Szenario: Service erzeugt selbst ein Objekt (mit generierter Bestellnummer) und übergibt es an einen Mock
-* `equals` reicht nicht → übergebenes Argument „einfangen“ und dann prüfen
+* Szenario: Komponente erzeugt selbst ein Objekt und übergibt es an andere Komponente
+* müssen übergebenes Argument „einfangen“ und dann prüfen
 --
 
 === Beispiel: *Argument Capture* 🧑‍💻
 
 [source,java,indent=0]
 ----
-include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines=45..64]
+include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines=45..66]
 ----
 
 [.notes]
@@ -221,7 +236,7 @@ include::../src/test/java/de/slauth/shop/checkout/CheckoutServiceTest.java[lines
 
 [source,groovy,indent=0]
 ----
-include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=34..50]
+include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[lines=37..56]
 ----
 
 [.notes]
@@ -230,6 +245,71 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
 * Jede Zeile in der Closure ist eine Assertion
 * Bei Fehlschlag zeigt die Power Assertion, *welches* Feld nicht passt:
    ** `it.total == 86.00` → `85.00 false`
+--
+
+== Und was ist mit Integrationstests? 🔗
+
+[.notes]
+--
+* bisher haben wir uns nur Unit-Tests angesehen
+* Spock kann auch problemlos für Integrationstests verwendet werden
+--
+
+=== Integrationstests 🔗
+
+[%step]
+* funktioniert auch problemlos z. B. mit `@SpringBootTest` +
+(und mit `@WebMvcTest`, `@DataJpaTest`, `@JsonTest`, `@RestClientTest`, …)
+
+[%step]
+[source,groovy,indent=0]
+----
+include::../src/test/groovy/de/slauth/shop/discount/DiscountControllerIntegrationSpec.groovy[lines=30..49]
+----
+
+[.notes]
+--
+* geht _auch_ mit Jakarta EE, Micronaut, Helidon
+* aber _nicht_ mit Quarkus
+--
+
+=== UI Tests (Spock + Geb) 🖥️
+
+Geb: https://groovy.apache.org/geb
+
+[source,groovy]
+----
+class HomepageSpec extends GebSpec {
+
+    void "can access settings from homepage"() {
+        given: "I'm at the home page"
+            to HomePage
+
+        when: "I open the nav and click on the first link"
+            nav.open()
+            nav.links[0].click()
+
+        then: "I'm at the settings page"
+            at SettingsPage
+    }
+}
+
+class HomePage extends Page {
+
+    static at = { title.startsWith("Welcome") }
+
+    static content = {
+        nav { module(NavModule) }
+    }
+
+    static url = "/"
+}
+----
+
+[.notes]
+--
+* Geb baut auf Spock auf
+* Page Object Pattern
 --
 
 == Output bei Fehlschlägen ❌
@@ -242,6 +322,7 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
 
 === JUnit / AssertJ 🤔
 
+[source,text]
 ----
 [ERROR] de.slauth.shop.discount.ParameterizedStyleTest.calculatesDiscount(LocalDate,
 BigDecimal, BigDecimal)[2] -- Time elapsed: 0.008 s <<< FAILURE!
@@ -254,11 +335,12 @@ expected: 5.00
 
 [.notes]
 --
-* `@ParameterizedTest(name = "{0}")` wird standardmäßig vom `maven-surefire-plugin` ignoriert
+* es gibt zwar `@ParameterizedTest(name = "{0}")`, wird aber standardmäßig vom `maven-surefire-plugin` ignoriert
 --
 
 === Spock 💡
 
+[source,text]
 ----
 [ERROR] de.slauth.shop.discount.DiscountCalculatorSpec.member since 2026-11-13, order of
 100.00 EUR gets 5.00 EUR discount -- Time elapsed: 0.144 s <<< FAILURE!
@@ -280,70 +362,22 @@ calculator.discountFor(customer, order) == expected
 * Kein Debugger, kein AssertJ/Hamcrest-DSL nötig
 --
 
-== Integrationstests 🔗
+=== Spock Reports 📋
+
+image::report.png[height=1000]
 
 [.notes]
 --
-* bisher haben wir uns nur Unit-Tests angesehen
-* Spock kann auch problemlos für Integrationstests verwendet werden
---
-
-=== Integrationstests 🔗
-
-[%step]
-* funktioniert auch problemlos mit `@SpringBootTest` +
-  (und mit `@WebMvcTest`, `@DataJpaTest`, `@JsonTest`, `@RestClientTest`, …)
-
-[%step]
-[source,groovy,indent=0]
-----
-include::../src/test/groovy/de/slauth/shop/discount/DiscountControllerIntegrationSpec.groovy[lines=30..49]
-----
-
-=== UI Tests (Spock + Geb) 🖥️
-
-Geb: https://groovy.apache.org/geb
-
-[source,groovy]
-----
-class HomepageSpec extends GebSpec {
-
-    void "can access settings from homepage"() {
-        given:
-            to HomePage
-
-        when:
-            nav.open()
-            nav.links[0].click()
-
-        then:
-            at SettingsPage
-    }
-}
-
-class HomePage extends Page {
-    static at = { title.startsWith("Welcome") }
-    static content = {
-        nav { module(NavModule) }
-    }
-}
-
-class SettingsPage extends Page {
-    static at = { title == "Settings" }
-}
-----
-
-[.notes]
---
-* Geb baut auf Spock auf
-* Page Object Pattern
+* HTML-Reports
+* falls die Specs für das Business immer noch nicht lesbar genug sind
+* aussagekräftig bei Fehlschlägen
 --
 
 [.columns]
 == Einstieg ohne Big Bang 🤝
 
+[.fragment, step=1]
 [.column.is-two-fifths]
-[%step]
 * Spock 2.x läuft auf der +
 *JUnit-Platform*
     ** _gleicher_ Maven-/Gradle-Build
@@ -352,26 +386,36 @@ class SettingsPage extends Page {
 * Produktionscode bleibt Java
 * Spock-Specs und JUnit-Tests leben friedlich nebeneinander 🖖
 
+[.fragment, step=1]
 [.column]
 image::junit6_architektur.svg[]
 
 [.notes]
 --
-* „Muss ich alles auf einmal umstellen?“ → nein
-* Vorschlag: nächsten neuen Test als Spec schreiben
+* „Ich habe aber alles auf JUnit“
+* kein Problem!
+   ** einfach nächsten _neuen_ Test als Spec schreiben
+   ** bei Gefallen: KI regelt Migration 😁
+* keine Angst vor Groovy
+   ** „Java ohne Semikolons“
+   ** Produktionscode bleibt Java (oder Kotlin, oder …)
+* ganz im Sinne von Star Trek: +
+   Spock-Specs und JUnit-Tests leben friedlich nebeneinander
 --
 
 == 3 Dinge zum Mitnehmen 💡
 
 [%step]
-. *Lesbar & klar:* `given`-`when`-`then` als _echte_ Struktur – ausführbare Specs, +
-die sowohl das Business als auch dein KI-Agent versteht
-. *Datengetrieben:* übersichtliche `where:`-Tabellen direkt am Test +
-statt verteilter `@MethodSource`
-. *Aussagekräftig:* Power Assertions erklären jeden Fehlschlag
+. *Lesbar & klar* +
+  `given`-`when`-`then` als echte Struktur – _ausführbare_ Spezifikationen, die sowohl das Business als auch ein KI-Agent versteht
+. *Datengetrieben* +
+  übersichtliche `where:`-Tabellen direkt am Test statt verteilter `@MethodSource`
+. *Aussagekräftig* +
+  Power Assertions erklären detailliert jeden Fehlschlag
 
 [.notes]
 --
+* *Lesbar & klar:* wird aufgrund von KI _immer wichtiger_!
 * Und der Einstieg kostet fast nichts – einfach ausprobieren 🖖
 --
 
@@ -379,8 +423,6 @@ statt verteilter `@MethodSource`
 
 Mögen eure Tests *lange und in Frieden* leben! 🖖
 
-[.fragment, step=1]
 image::qrcode_github.svg[width=400]
 
-[.fragment, step=1]
 [.small]#https://github.com/slauth/faszinierend-bdd-mit-dem-spock-framework#

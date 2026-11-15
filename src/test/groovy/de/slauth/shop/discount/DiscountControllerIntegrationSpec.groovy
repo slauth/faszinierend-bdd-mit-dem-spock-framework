@@ -27,19 +27,19 @@ class DiscountControllerIntegrationSpec extends Specification {
     @Autowired
     JsonMapper jsonMapper
 
-    void "member since #memberSince, order of #total EUR gets #expected EUR discount" (
-            LocalDate memberSince, BigDecimal total, BigDecimal expected) {
-        when:
+    void "member since #memberSince, order of #total EUR gets #expected EUR discount" () {
+
+        when: "the discount API is called with #memberSince and #total"
             def response = mockMvc.perform(get("/api/discount")
-                    .queryParam("total", total.toString())
-                    .queryParam("memberSince", memberSince.toString()))
+                    .queryParam("memberSince", memberSince.toString())
+                    .queryParam("total", total.toString()))
                     .andReturn().response
 
-        then:
+        then: "it responds with 200 OK and the expected discount"
             response.status == 200
             deserialize(response) == new DiscountResponse(expected)
 
-        where:
+        where: "the discount rules are"
             memberSince         |  total || expected
             today               |  99.00 ||     0.00
             today               | 100.00 ||     5.00

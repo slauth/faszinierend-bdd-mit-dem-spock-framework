@@ -19,28 +19,34 @@ class CheckoutServiceSpec extends Specification {
     def service = new CheckoutService(calculator, paymentGateway, confirmationMailer)
 
     void "charges the order total minus the discount"() {
-        given:
+
+        given: "a new customer with an order of 100.00 EUR"
             def customer = new Customer(today)
             def order = new Order(100.00)
 
-        when:
+        when: "the customer checks out"
             service.checkout(customer, order)
 
-        then:
+        then: "the discount calculator is applied"
             1 * calculator.discountFor(customer, order) >> 15.00
+
+        and: "the discounted total is charged"
             1 * paymentGateway.charge(customer, 85.00)
     }
 
     void "sends an order confirmation"() {
-        given:
+
+        given: "a new customer with an order of 100.00 EUR"
             def customer = new Customer(today)
             def order = new Order(100.00)
-            calculator.discountFor(customer, order) >> 15.00
 
-        when:
+        when: "the customer checks out"
             service.checkout(customer, order)
 
-        then:
+        then: "the discount calculator is applied"
+            1 * calculator.discountFor(customer, order) >> 15.00
+
+        and: "a confirmation with order number, discount and total is sent"
             1 * confirmationMailer.send({ OrderConfirmation it ->
                 it.orderNumber != null
                 it.customer == customer
