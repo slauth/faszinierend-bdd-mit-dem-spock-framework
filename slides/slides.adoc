@@ -110,8 +110,10 @@ include::../src/test/java/de/slauth/shop/discount/MyFirstTest.java[lines=22..28]
 
 === Behavior Driven Development (BDD) 🗣️
 
-*Idee:* gewünschtes Verhalten innerhalb fester Strukturen +
+[%step]
+* *Idee:* gewünschtes Verhalten innerhalb fester Strukturen +
 in der Sprache des Fachbereichs beschreiben
+* Frameworks wie Cucumber dienen als Bindeglied zwischen Business und Devs
 
 [%step]
 [source,gherkin]
@@ -141,7 +143,7 @@ Feature: Shopping Cart Discounts
     ** „Test“ lenkt den Blick zu stark aufs Prüfen
     ** „Behaviour“ auf das gewünschte Verhalten
 * `Given` = Ausgangslage, `When` = Aktion, `Then` = erwartetes Ergebnis
-* erfordert aber extra „Glue Code“ / ist nicht direkt ausführbar
+* *aber*: erfordert aber extra „Glue Code“ / ist nicht direkt ausführbar 😐
 * Überleitung: unser JUnit-Test macht nichts anderes …
 --
 
