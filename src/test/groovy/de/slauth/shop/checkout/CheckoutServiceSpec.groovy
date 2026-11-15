@@ -28,10 +28,10 @@ class CheckoutServiceSpec extends Specification {
             service.checkout(customer, order)
 
         then: "the discount calculator is applied"
-            1 * calculator.discountFor(customer, order) >> 15.00
+            1 * calculator.discountFor(customer, order) >> 5.00
 
         and: "the discounted total is charged"
-            1 * paymentGateway.charge(customer, 85.00)
+            1 * paymentGateway.charge(customer, 95.00)
     }
 
     void "sends an order confirmation"() {
@@ -44,14 +44,14 @@ class CheckoutServiceSpec extends Specification {
             service.checkout(customer, order)
 
         then: "the discount calculator is applied"
-            1 * calculator.discountFor(customer, order) >> 15.00
+            1 * calculator.discountFor(customer, order) >> 5.00
 
         and: "a confirmation with order number, discount and total is sent"
             1 * confirmationMailer.send({ OrderConfirmation it ->
                 it.orderNumber != null
                 it.customer == customer
-                it.discount == 15.00
-                it.total == 85.00
+                it.discount == 5.00
+                it.total == 95.00
             })
     }
 }
