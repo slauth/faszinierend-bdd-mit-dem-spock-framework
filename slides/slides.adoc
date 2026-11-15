@@ -48,7 +48,7 @@ das Wert auf *Lesbarkeit* und *Klarheit* legt.“
 [.notes]
 --
 * *Lesbarkeit* und *Klarheit*
-   ** werden _immer wichtiger_, da wir mehr Code lesen
+   ** werden _immer wichtiger_, da wir immer mehr Code _lesen_ als schreiben
 * Überleitung: *Test* und *Mocking* = JUnit
 --
 
@@ -60,7 +60,6 @@ Für Tests haben wir doch *JUnit*.
 --
 * *Test* und *Mocking* deckt JUnit gut ab
 * aber *Spezifikation*, *Lesbarkeit* und *Klarheit*?
-   ** wird _immer wichtiger_, da wir mehr Code lesen
 --
 
 === Der perfekte Test 💯
@@ -350,6 +349,7 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
     ** Verifikation sehr gut lesbar
     ** `1 * calculator.discountFor` statt `verify(calculator, times(1))`
 * Mocking und Verifikation in einer Zeile
+    ** Spock verschiebt Stub-Definition an den Anfang
 --
 
 === Beispiel: *Argument Capture* 🧑‍💻
@@ -482,7 +482,7 @@ class HomePage extends Page {
 | `given`/`when`/`then`-Blöcke
 | `Given`/`When`/`Then`-Sätze
 
-| direkt ausführbar
+| ohne Glue Code ausführbar
 | ✅
 | ✅
 | ❌
