@@ -53,7 +53,7 @@ das Wert auf *Lesbarkeit* und *Klarheit* legt.“
 * Überleitung: *Test* und *Mocking* = JUnit
 --
 
-== Und wozu? 🤔
+=== Und wozu? 🤔
 
 Für Tests haben wir doch *JUnit*.
 
@@ -87,7 +87,7 @@ image::venn.svg[height=600]
    ** im Kontext des Spock Frameworks reden wir von *Specs*, nicht Tests
 --
 
-== Beispiel: *datengetriebener* Test 🧑‍💻
+=== Beispiel: *datengetriebener* Test 🧑‍💻
 [.notes]
 --
 * *datengetrieben*: Input → Output
@@ -108,7 +108,7 @@ include::../src/test/java/de/slauth/shop/discount/MyFirstTest.java[lines=22..28]
 . Verifikation… ✅
 --
 
-=== Wie bekomme ich das *lesbarer* und *klarer* hin? 🤔
+== Wie bekomme ich das *lesbarer* und *klarer* hin? 🤔
 
 === Behavior Driven Development (BDD) 🗣️
 
@@ -146,6 +146,8 @@ Feature: Shopping Cart Discounts
 * erfordert aber extra „Glue Code“ / ist nicht direkt ausführbar
 * Überleitung: unser JUnit-Test macht nichts anderes …
 --
+
+== BDD mit JUnit – Annäherungsversuche 😐
 
 === BDD-Struktur in JUnit 😐
 
@@ -193,7 +195,7 @@ include::../src/test/java/de/slauth/shop/discount/WalesStyleTest.java[lines=22..
 
 [source,java,indent=0]
 ----
-include::../src/test/java/de/slauth/shop/discount/ParameterizedStyleTest.java[lines=26..49]
+include::../src/test/java/de/slauth/shop/discount/ParameterizedStyleTest.java[lines=25..48]
 ----
 
 [.notes]
@@ -216,11 +218,11 @@ include::../src/test/java/de/slauth/shop/discount/ParameterizedStyleCsvTest.java
     ** selbst einfach `null` übergeben ist nicht so einfach
 --
 
-=== Spock 🖖
+== Spock 🖖
 
 [source,groovy,indent=0]
 ----
-include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groovy[lines=20..36]
+include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorWhenThenSpec.groovy[lines=20..39]
 ----
 
 [.notes]
@@ -230,8 +232,85 @@ include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groov
     ** `BigDecimal` ist Default
     ** `==` bedeutet `equals`
 * Blöcke sind echte Syntax, `then` kann nicht vergessen werden
+* Im `then`-Block ist jede Zeile eine Assertion – kein `assertEquals` etc. nötig
+--
+
+=== Spock 🖖
+
+[source,groovy,indent=0]
+----
+include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groovy[lines=20..36]
+----
+
+[.notes]
+--
 * `expect` = `when` + `then` kombiniert
-* Im `then:`/`expect:`-Block ist jede Zeile eine Assertion – kein `assertEquals` etc. nötig
+* auch hier ist jede Zeile eine Assertion
+--
+
+=== Output bei Fehlschlägen ❌
+
+[.notes]
+--
+* nicht nur der Code ist lesbarer
+* auch der Output bei Fehlschlägen
+--
+
+=== JUnit / AssertJ 🤔
+
+[source,text]
+----
+[ERROR] de.slauth.shop.discount.ParameterizedStyleTest.calculatesDiscount(LocalDate,
+BigDecimal, BigDecimal)[2] -- Time elapsed: 0.008 s <<< FAILURE!
+
+org.opentest4j.AssertionFailedError:
+
+expected: 5.00
+ but was: 0.00
+----
+
+[.notes]
+--
+* es gibt zwar `@ParameterizedTest(name = "...")`, wird aber standardmäßig vom `maven-surefire-plugin` ignoriert
+--
+
+=== Spock: Groovy *Power Assertions* 💡
+
+[source,text]
+----
+[ERROR] de.slauth.shop.discount.DiscountCalculatorSpec.member since 2026-12-09, order of
+100.00 EUR gets 5.00 EUR discount -- Time elapsed: 0.144 s <<< FAILURE!
+
+Condition not satisfied:
+
+calculator.discountFor(customer, order) == expected
+|          |           |         |      |  |
+|          0.00        |         |      |  5.00
+|                      |         |      false
+|                      |         Order[total=100.00]
+|                      Customer[memberSince=2026-12-09]
+<de.slauth.shop.discount.DiscountCalculator@1f992a3a>
+----
+
+[.notes]
+--
+* Power Assertions: ein einfaches `==` zeigt jeden Zwischenwert
+* Kein Debugger, kein AssertJ/Hamcrest-DSL nötig
+--
+
+=== Spock Reports 📋
+
+[.small]#https://github.com/renatoathaydes/spock-reports#
+
++++
+<iframe data-src="content/report-failed.html" width="100%" height="790" frameborder="0"></iframe>
++++
+
+[.notes]
+--
+* HTML-Reports
+* falls die Specs für das Business immer noch nicht lesbar genug sind
+* aussagekräftig bei Fehlschlägen
 --
 
 == Beispiel: *interaktionsbasierter* Test 🧑‍💻
@@ -269,11 +348,12 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
 [.notes]
 --
 * Mocking ist in Spock direkt eingebaut
-   ** sehr gut lesbar
+    ** Verifikation sehr gut lesbar
+    ** `1 * calculator.discountFor` statt `verify(calculator, times(1))`
 * Mocking und Verifikation in einer Zeile
 --
 
-== Beispiel: *Argument Capture* 🧑‍💻
+=== Beispiel: *Argument Capture* 🧑‍💻
 
 [.notes]
 --
@@ -311,7 +391,7 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
    ** `it.total == 86.00` → `85.00 false`
 --
 
-== Und was ist mit Integrationstests? 🔗
+== Und was ist mit *Integrationstests*? 🔗
 
 [.notes]
 --
@@ -322,7 +402,7 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
     ** Steuerung z. B. über einen HTTP-Client
 --
 
-=== Integrationstests 🔗
+=== Integrationstests in Spock 🔗
 
 [%step]
 * funktioniert auch problemlos z. B. mit `@SpringBootTest` +
@@ -340,7 +420,7 @@ include::../src/test/groovy/de/slauth/shop/discount/DiscountControllerIntegratio
 * aber _nicht_ mit Quarkus
 --
 
-=== UI Tests (Spock + Geb) 🖥️
+=== Browser Tests (Spock + Geb) 🖥️
 
 [.small]#https://groovy.apache.org/geb#
 
@@ -379,72 +459,39 @@ class HomePage extends Page {
 * Page Object Pattern
 --
 
-== Output bei Fehlschlägen ❌
+[.columns]
+== Einstieg ohne Big Bang 🤝
+
+[.fragment, step=1]
+[.column.is-two-fifths]
+* Spock 2.x läuft auf der +
+*JUnit-Platform*
+    ** _gleicher_ Maven-/Gradle-Build
+    ** _gleiche_ IDE
+    ** _gleiche_ CI
+* Spock-Specs und JUnit-Tests leben friedlich nebeneinander 🖖
+* Produktionscode bleibt Java
+* Specs in Groovy +
+  → *kein Glue Code* nötig
+
+[.fragment, step=1]
+[.column]
+image::junit6-architektur.svg[]
 
 [.notes]
 --
-* nicht nur der Code ist lesbarer
-* auch der Output bei Fehlschlägen
+* „Ich habe aber alles auf JUnit“
+* kein Problem!
+   ** einfach nächsten _neuen_ Test als Spec schreiben
+   ** bei Gefallen: KI regelt Migration 😁
+* keine Angst vor Groovy
+   ** „Java ohne Semikolons“
+   ** Produktionscode bleibt Java (oder Kotlin, oder …)
+* ganz im Sinne von Star Trek: +
+   Spock-Specs und JUnit-Tests leben friedlich nebeneinander
 --
 
-=== JUnit / AssertJ 🤔
-
-[source,text]
-----
-[ERROR] de.slauth.shop.discount.ParameterizedStyleTest.calculatesDiscount(LocalDate,
-BigDecimal, BigDecimal)[2] -- Time elapsed: 0.008 s <<< FAILURE!
-
-org.opentest4j.AssertionFailedError:
-
-expected: 5.00
- but was: 0.00
-----
-
-[.notes]
---
-* es gibt zwar `@ParameterizedTest(name = "...")`, wird aber standardmäßig vom `maven-surefire-plugin` ignoriert
---
-
-=== Spock 💡
-
-[source,text]
-----
-[ERROR] de.slauth.shop.discount.DiscountCalculatorSpec.member since 2026-11-13, order of
-100.00 EUR gets 5.00 EUR discount -- Time elapsed: 0.144 s <<< FAILURE!
-
-Condition not satisfied:
-
-calculator.discountFor(customer, order) == expected
-|          |           |         |      |  |
-|          0.00        |         |      |  5.00
-|                      |         |      false
-|                      |         Order[total=100.00]
-|                      Customer[memberSince=2026-11-13]
-<de.slauth.shop.discount.DiscountCalculator@1f992a3a>
-----
-
-[.notes]
---
-* Power Assertions: ein einfaches `==` zeigt jeden Zwischenwert
-* Kein Debugger, kein AssertJ/Hamcrest-DSL nötig
---
-
-=== Spock Reports 📋
-
-[.small]#https://github.com/renatoathaydes/spock-reports#
-
-+++
-<iframe data-src="content/report-failed.html" width="100%" height="790" frameborder="0"></iframe>
-+++
-
-[.notes]
---
-* HTML-Reports
-* falls die Specs für das Business immer noch nicht lesbar genug sind
-* aussagekräftig bei Fehlschlägen
---
-
-== Vergleich ⚖️
+=== Vergleich ⚖️
 
 [cols="3h,4,4,4", options="header"]
 |===
@@ -488,45 +535,16 @@ Fachbereich
 [.small]#(Szenarien und Glue Code pflegen)#
 |===
 
-[.columns]
-== Einstieg ohne Big Bang 🤝
-
-[.fragment, step=1]
-[.column.is-two-fifths]
-* Spock 2.x läuft auf der +
-*JUnit-Platform*
-    ** _gleicher_ Maven-/Gradle-Build
-    ** _gleiche_ IDE
-    ** _gleiche_ CI
-* Produktionscode bleibt Java
-* Spock-Specs und JUnit-Tests leben friedlich nebeneinander 🖖
-
-[.fragment, step=1]
-[.column]
-image::junit6-architektur.svg[]
-
-[.notes]
---
-* „Ich habe aber alles auf JUnit“
-* kein Problem!
-   ** einfach nächsten _neuen_ Test als Spec schreiben
-   ** bei Gefallen: KI regelt Migration 😁
-* keine Angst vor Groovy
-   ** „Java ohne Semikolons“
-   ** Produktionscode bleibt Java (oder Kotlin, oder …)
-* ganz im Sinne von Star Trek: +
-   Spock-Specs und JUnit-Tests leben friedlich nebeneinander
---
-
 == 3 Dinge zum Mitnehmen 💡
 
 [%step]
-. *Lesbar & klar* +
-  `given`-`when`-`then` als echte Struktur – _ausführbare_ Spezifikationen, die sowohl das Business als auch ein KI-Agent versteht
-. *Datengetrieben* +
-  übersichtliche `where:`-Tabellen direkt am Test statt verteilter `@MethodSource`
-. *Aussagekräftig* +
-  Power Assertions erklären detailliert jeden Fehlschlag
+. *lesbar & klar* +
+  `given`-`when`-`then` als echte Struktur, +
+  `where`-Tabellen direkt am Test
+. *direkt ausführbare* Spezifikationen, +
+  die sowohl das Business als auch ein KI-Agent versteht
+. *aussagekräftige* Power Assertions +
+  erklären detailliert jeden Fehlschlag
 
 [.notes]
 --

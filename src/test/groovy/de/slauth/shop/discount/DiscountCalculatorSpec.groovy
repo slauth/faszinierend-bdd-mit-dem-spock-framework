@@ -17,7 +17,7 @@ class DiscountCalculatorSpec extends Specification {
 
     def calculator = new DiscountCalculator(clock)
 
-    void "member since #memberSince, order of #total EUR gets #expected EUR discount" () {
+    void "member since #memberSince, order of #total EUR gets #expected EUR discount"() {
 
         given: "a customer with membership since #memberSince and with an order of #total EUR"
             def customer = new Customer(memberSince)
