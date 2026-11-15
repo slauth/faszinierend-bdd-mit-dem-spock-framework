@@ -389,8 +389,7 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
 --
 * Kein Captor: die Erwartung an das Argument steht direkt in der Interaktion
 * Jede Zeile in der Closure ist eine Assertion
-* Bei Fehlschlag zeigt die Power Assertion, *welches* Feld nicht passt:
-   ** `it.total == 86.00` → `85.00 false`
+* Bei Fehlschlag zeigt die Power Assertion, *welches* Feld nicht passt
 --
 
 == Und was ist mit *Integrationstests*? 🔗
