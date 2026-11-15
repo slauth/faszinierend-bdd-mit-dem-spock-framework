@@ -2,7 +2,6 @@
 Sebastian Lauth · Tech & Team Lead · Deichmann SE
 :customcss: it-tage.css
 :imagesdir: images
-:revdate: 10.11.2026
 :revealjs_controlsLayout: edges
 :revealjs_controlsTutorial: false
 :revealjs_fragmentInURL: true
