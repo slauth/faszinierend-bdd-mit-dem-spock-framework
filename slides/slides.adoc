@@ -122,9 +122,9 @@ Feature: Shopping Cart Discounts
 
   Scenario Outline: Apply discount based on membership date and order value
     Given a customer that is member since <member_since>
-    And an order of $<total> EUR value
+    And an order of <total> EUR value
     When they place the order
-    Then they get $<expected_discount> EUR discount
+    Then they get <expected_discount> EUR discount
 
     Examples:
 
