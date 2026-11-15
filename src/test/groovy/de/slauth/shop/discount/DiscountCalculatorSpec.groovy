@@ -5,14 +5,17 @@ import de.slauth.shop.Order
 import spock.lang.Shared
 import spock.lang.Specification
 
+import java.time.Clock
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
 
 class DiscountCalculatorSpec extends Specification {
 
-    @Shared
-    def today = LocalDate.now()
+    @Shared def today = LocalDate.parse("2026-12-09")
+    @Shared def clock = Clock.fixed(Instant.parse("2026-12-09T17:00:00+01:00"), ZoneId.of("Europe/Berlin"))
 
-    def calculator = new DiscountCalculator()
+    def calculator = new DiscountCalculator(clock)
 
     void "member since #memberSince, order of #total EUR gets #expected EUR discount" () {
 

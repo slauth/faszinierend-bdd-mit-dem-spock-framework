@@ -58,6 +58,10 @@ span.small {
     font-family: monospace;
 }
 
+table.tableblock, th.tableblock, td.tableblock {
+    font-size: .9em;
+}
+
 .reveal strong, .reveal b {
     background: var(--color-accent-1-lighten);
     padding: .2em .2em 0 .2em;

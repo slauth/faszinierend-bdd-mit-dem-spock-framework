@@ -3,7 +3,10 @@ package de.slauth.shop.discount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.stream.Stream;
 
 import de.slauth.shop.Customer;
@@ -14,9 +17,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class ParameterizedStyleTest {
 
-	static final LocalDate today = LocalDate.now();
+	static final LocalDate today = LocalDate.parse("2026-12-09");
+	static final Clock clock = Clock.fixed(Instant.parse("2026-12-09T17:00:00+01:00"), ZoneId.of("Europe/Berlin"));
 
-	DiscountCalculator calculator = new DiscountCalculator();
+	DiscountCalculator calculator = new DiscountCalculator(clock);
 
 	@ParameterizedTest
 	@MethodSource("discountCases")

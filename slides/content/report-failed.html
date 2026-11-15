@@ -1,0 +1,752 @@
+<!DOCTYPE html><html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'></meta>
+<style>/* spock-reports: Detailseite je Spec im Stil von slides/deichmann.css */
+
+:root {
+  --color-white: #fff;
+  --color-black: #000;
+  --color-accent-1: #009661;
+  --color-accent-1-lighten: #c9ffec;
+  --color-accent-2: #00422B;
+  --color-grey-light: #f4f6f5;
+  --color-grey: #666;
+  --color-fail: #c62828;
+  --color-fail-lighten: #fde8e8;
+  --color-error: #e65100;
+  --color-error-lighten: #fff0e0;
+}
+
+body {
+  font-family: "Deichmann Next", Helvetica, Arial, sans-serif;
+  color: var(--color-black);
+  background: var(--color-white);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px 32px;
+  border-top: 8px solid var(--color-accent-1);
+}
+
+h2 {
+  font-family: "Deichmann Next ExtraBold", "Deichmann Next", Helvetica, Arial, sans-serif;
+  font-size: 2.2em;
+  margin: 32px 0 8px;
+}
+
+h3 {
+  font-weight: 600;
+  margin-top: 32px;
+  color: var(--color-accent-2);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+a {
+  color: var(--color-accent-1);
+}
+
+a:hover {
+  color: var(--color-accent-2);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.back-link {
+  font-size: small;
+  margin: 8px 0;
+}
+
+div.date-test-ran {
+  font-size: small;
+  color: var(--color-grey);
+  margin-bottom: 12px;
+}
+
+.return-toc {
+  float: right;
+  font-size: 60%;
+  text-align: right;
+}
+
+.return-toc a {
+  color: inherit;
+}
+
+/* Kopfzeilen-Tabelle (Summary) */
+table.summary-table {
+  width: 100%;
+  text-align: left;
+  font-size: .95em;
+}
+
+table.summary-table th {
+  background: var(--color-accent-2);
+  color: var(--color-white);
+  font-weight: 600;
+  padding: 10px 12px;
+}
+
+table.summary-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+/* @Title / @Narrative */
+pre.title {
+  font-family: inherit;
+  font-size: 1.6em;
+  font-weight: 600;
+  color: var(--color-accent-2);
+  white-space: pre-wrap;
+}
+
+pre.narrative {
+  font-family: inherit;
+  font-size: 1.15em;
+  font-style: italic;
+  line-height: 1.5;
+  color: #333;
+  white-space: pre-wrap;
+  border-left: 4px solid var(--color-accent-1);
+  padding-left: 16px;
+}
+
+/* Inhaltsverzeichnis */
+ul#toc {
+  padding-left: 20px;
+  line-height: 1.7;
+}
+
+.feature-toc-pass {
+  color: var(--color-accent-1);
+}
+
+.feature-toc-failure {
+  color: var(--color-fail);
+  font-weight: 600;
+}
+
+.feature-toc-error {
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+.feature-toc-ignored {
+  color: var(--color-grey);
+}
+
+/* Features */
+table.features-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 2px;
+}
+
+.feature-description {
+  font-size: 1.2em;
+  font-weight: 600;
+  background: var(--color-accent-1);
+  color: var(--color-white);
+  padding: 14px 16px;
+  margin-top: 28px;
+  border-radius: 6px 6px 0 0;
+}
+
+.feature-description.failure {
+  background: var(--color-fail);
+}
+
+.feature-description.error {
+  background: var(--color-error);
+}
+
+.feature-description.ignored {
+  background: #bbb;
+}
+
+.feature-description.ignored .reason {
+  color: var(--color-black);
+  font-style: italic;
+  font-size: small;
+}
+
+col.block-kind-col {
+  width: 110px;
+}
+
+table td {
+  min-width: 50px;
+  vertical-align: top;
+}
+
+div.block-kind {
+  margin: 6px 4px;
+  font-weight: 600;
+  color: var(--color-accent-2);
+}
+
+div.block-text {
+  margin: 6px 4px;
+  font-size: 1.05em;
+}
+
+div.extra-info {
+  font-size: small;
+}
+
+div.spec-headers {
+  margin: 4px;
+  font-style: italic;
+}
+
+span.spec-header {
+  font-weight: bold;
+}
+
+div.spec-status {
+  font-style: italic;
+}
+
+.ignored {
+  color: var(--color-grey);
+}
+
+div.issues {
+  margin-top: 6px;
+  padding: 10px;
+  background-color: #fff8d6;
+  border-left: 4px solid #e0b400;
+  font-size: small;
+  max-width: 50%;
+}
+
+div.pending-feature {
+  background-color: var(--color-accent-2);
+  color: var(--color-white);
+  margin-top: 6px;
+  padding: 5px;
+  text-align: center;
+  font-size: small;
+  max-width: 120px;
+  border-radius: 4px;
+}
+
+/* Where-Tabelle */
+table.ex-table {
+  margin: 6px 4px;
+  font-size: .95em;
+}
+
+table.ex-table th {
+  background: var(--color-accent-2);
+  color: var(--color-white);
+  font-weight: 600;
+  padding: 8px 14px;
+  text-align: left;
+}
+
+table.ex-table td {
+  background: var(--color-grey-light);
+  padding: 6px 14px;
+  border-bottom: 1px solid #e3e3e3;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+td.ex-result {
+  text-align: center;
+  background: var(--color-white) !important;
+  font-family: inherit !important;
+}
+
+.ex-time {
+  font-size: smaller;
+  color: var(--color-grey);
+  font-weight: normal;
+}
+
+tr.ex-pass td.ex-result span:first-child,
+.ex-pass {
+  color: var(--color-accent-1);
+  font-weight: 600;
+}
+
+.ex-fail {
+  color: var(--color-fail);
+  font-weight: 600;
+}
+
+tr.ex-fail td {
+  background: var(--color-fail-lighten) !important;
+}
+
+/* Fehlerdetails */
+div.problem-description {
+  padding: 12px 16px;
+  background: var(--color-fail-lighten);
+  border-left: 4px solid var(--color-fail);
+  border-radius: 4px;
+}
+
+div.problem-header {
+  font-weight: bold;
+  color: var(--color-fail);
+}
+
+div.problem-list pre {
+  white-space: pre-wrap;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+/* Quellcode (showCodeBlocks=true) */
+pre.block-source {
+  background-color: var(--color-grey-light);
+  border-left: 4px solid var(--color-accent-1);
+  padding: 10px 14px;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+pre.block-source.error {
+  background-color: var(--color-fail-lighten);
+  border-left-color: var(--color-fail);
+  color: var(--color-fail);
+  font-weight: bold;
+}
+
+pre.block-source.before-error {
+  margin-bottom: -14px;
+}
+
+pre.block-source.after-error {
+  color: var(--color-grey);
+  margin-top: -14px;
+}
+
+pre.block-source.post-error {
+  color: var(--color-grey);
+}
+
+div.footer {
+  text-align: center;
+  font-size: small;
+  color: var(--color-grey);
+  margin-top: 16px;
+}
+</style>
+</head>
+<body>
+<h2>Report for de.slauth.shop.discount.DiscountCalculatorSpec</h2>
+<hr></hr>
+<div class='back-link'>
+<a href='index.html'>&lt;&lt; Back</a>
+</div>
+<div class='summary-report'>
+<h3>Summary:</h3>
+<div class='date-test-ran'>Created on Sun Nov 15 10:08:15 CET 2026 by SLA23</div>
+<table class='summary-table'>
+<thead>
+<tr>
+<th>Executed features</th>
+<th>Passed</th>
+<th>Failures</th>
+<th>Errors</th>
+<th>Skipped</th>
+<th>Success rate</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>60,0%</td>
+<td>0,173 seconds</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>Features:</h3>
+<table class='features-table'>
+<colgroup>
+<col class='block-kind-col'></col>
+<col class='block-text-col'></col>
+</colgroup>
+<tbody>
+<ul id='toc'>
+<li>
+<a href='#2056682915' class='feature-toc-pass'>member since 2026-12-09, order of 99.00 EUR gets 0.00 EUR discount [0]</a>
+</li>
+<li>
+<a href='#-1469850274' class='feature-toc-failure'>member since 2026-12-09, order of 100.00 EUR gets 5.00 EUR discount [1]</a>
+</li>
+<li>
+<a href='#1618673474' class='feature-toc-pass'>member since 2025-12-09, order of 99.00 EUR gets 0.00 EUR discount [2]</a>
+</li>
+<li>
+<a href='#-222457324' class='feature-toc-pass'>member since 2024-12-09, order of 99.00 EUR gets 9.90 EUR discount [3]</a>
+</li>
+<li>
+<a href='#2135948842' class='feature-toc-failure'>member since 2024-12-09, order of 100.00 EUR gets 15.00 EUR discount [4]</a>
+</li>
+</ul>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='2056682915'>
+<span>member since 2026-12-09, order of 99.00 EUR gets 0.00 EUR discount [0]</span>
+<span class='return-toc'>
+<a href='#toc'>Return</a>
+<div class='ex-time'>(0,001 seconds)</div>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<div class='block-text'>a customer with membership since 2026-12-09 and with an order of 99.00 EUR</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<div class='block-text'>a discount of 0.00 EUR</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Where:</div>
+</td>
+<td>
+<div class='block-text'>the discount rules are</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Examples:</div>
+</td>
+<td>
+<div class='spec-examples'>
+<table class='ex-table'>
+<thead>
+<tr>
+<th class='ex-header'>memberSince</th>
+<th class='ex-header'>total</th>
+<th class='ex-header'>expected</th>
+</tr>
+</thead>
+<tbody>
+<tr class='ex-pass'>
+<td class='ex-value'>2026-12-09</td>
+<td class='ex-value'>99.00</td>
+<td class='ex-value'>0.00</td>
+<td class='ex-result'>
+<span>OK</span>
+<span class='ex-time'>(0,001 seconds)</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description failure' id='-1469850274'>
+<span>member since 2026-12-09, order of 100.00 EUR gets 5.00 EUR discount [1]</span>
+<span class='return-toc'>
+<a href='#toc'>Return</a>
+<div class='ex-time'>(0,147 seconds)</div>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<div class='block-text'>a customer with membership since 2026-12-09 and with an order of 100.00 EUR</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<div class='block-text'>a discount of 5.00 EUR</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Where:</div>
+</td>
+<td>
+<div class='block-text'>the discount rules are</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Examples:</div>
+</td>
+<td>
+<div class='spec-examples'>
+<table class='ex-table'>
+<thead>
+<tr>
+<th class='ex-header'>memberSince</th>
+<th class='ex-header'>total</th>
+<th class='ex-header'>expected</th>
+</tr>
+</thead>
+<tbody>
+<tr class='ex-fail'>
+<td class='ex-value'>2026-12-09</td>
+<td class='ex-value'>100.00</td>
+<td class='ex-value'>5.00</td>
+<td class='ex-result'>
+<span>FAIL</span>
+<span class='ex-time'>(0,147 seconds)</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='problem-description'>
+<div class='problem-header'>The following problems occurred:</div>
+<div class='problem-list'>
+<ul>
+<li>
+<pre>Condition not satisfied:<br/><br/>calculator.discountFor(customer, order) == expected<br/>|          |           |         |      |  |<br/>|          0.00        |         |      |  5.00<br/>|                      |         |      false<br/>|                      |         Order[total=100.00]<br/>|                      Customer[memberSince=2026-12-09]<br/>&lt;de.slauth.shop.discount.DiscountCalculator@aca2fc3 clock=inaccessible&gt;<br/></pre>
+</li>
+</ul>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='1618673474'>
+<span>member since 2025-12-09, order of 99.00 EUR gets 0.00 EUR discount [2]</span>
+<span class='return-toc'>
+<a href='#toc'>Return</a>
+<div class='ex-time'>(0)</div>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<div class='block-text'>a customer with membership since 2025-12-09 and with an order of 99.00 EUR</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<div class='block-text'>a discount of 0.00 EUR</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Where:</div>
+</td>
+<td>
+<div class='block-text'>the discount rules are</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Examples:</div>
+</td>
+<td>
+<div class='spec-examples'>
+<table class='ex-table'>
+<thead>
+<tr>
+<th class='ex-header'>memberSince</th>
+<th class='ex-header'>total</th>
+<th class='ex-header'>expected</th>
+</tr>
+</thead>
+<tbody>
+<tr class='ex-pass'>
+<td class='ex-value'>2025-12-09</td>
+<td class='ex-value'>99.00</td>
+<td class='ex-value'>0.00</td>
+<td class='ex-result'>
+<span>OK</span>
+<span class='ex-time'>(0)</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='-222457324'>
+<span>member since 2024-12-09, order of 99.00 EUR gets 9.90 EUR discount [3]</span>
+<span class='return-toc'>
+<a href='#toc'>Return</a>
+<div class='ex-time'>(0)</div>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<div class='block-text'>a customer with membership since 2024-12-09 and with an order of 99.00 EUR</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<div class='block-text'>a discount of 9.90 EUR</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Where:</div>
+</td>
+<td>
+<div class='block-text'>the discount rules are</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Examples:</div>
+</td>
+<td>
+<div class='spec-examples'>
+<table class='ex-table'>
+<thead>
+<tr>
+<th class='ex-header'>memberSince</th>
+<th class='ex-header'>total</th>
+<th class='ex-header'>expected</th>
+</tr>
+</thead>
+<tbody>
+<tr class='ex-pass'>
+<td class='ex-value'>2024-12-09</td>
+<td class='ex-value'>99.00</td>
+<td class='ex-value'>9.90</td>
+<td class='ex-result'>
+<span>OK</span>
+<span class='ex-time'>(0)</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description failure' id='2135948842'>
+<span>member since 2024-12-09, order of 100.00 EUR gets 15.00 EUR discount [4]</span>
+<span class='return-toc'>
+<a href='#toc'>Return</a>
+<div class='ex-time'>(0,002 seconds)</div>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<div class='block-text'>a customer with membership since 2024-12-09 and with an order of 100.00 EUR</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<div class='block-text'>a discount of 15.00 EUR</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Where:</div>
+</td>
+<td>
+<div class='block-text'>the discount rules are</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Examples:</div>
+</td>
+<td>
+<div class='spec-examples'>
+<table class='ex-table'>
+<thead>
+<tr>
+<th class='ex-header'>memberSince</th>
+<th class='ex-header'>total</th>
+<th class='ex-header'>expected</th>
+</tr>
+</thead>
+<tbody>
+<tr class='ex-fail'>
+<td class='ex-value'>2024-12-09</td>
+<td class='ex-value'>100.00</td>
+<td class='ex-value'>15.00</td>
+<td class='ex-result'>
+<span>FAIL</span>
+<span class='ex-time'>(0,002 seconds)</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='problem-description'>
+<div class='problem-header'>The following problems occurred:</div>
+<div class='problem-list'>
+<ul>
+<li>
+<pre>Condition not satisfied:<br/><br/>calculator.discountFor(customer, order) == expected<br/>|          |           |         |      |  |<br/>|          10.00       |         |      |  15.00<br/>|                      |         |      false<br/>|                      |         Order[total=100.00]<br/>|                      Customer[memberSince=2024-12-09]<br/>&lt;de.slauth.shop.discount.DiscountCalculator@352e5a82 clock=inaccessible&gt;<br/></pre>
+</li>
+</ul>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<hr></hr>
+<div class='footer'>Generated by <a href='https://github.com/renatoathaydes/spock-reports'>Athaydes Spock Reports</a></div>
+</body>
+</html>

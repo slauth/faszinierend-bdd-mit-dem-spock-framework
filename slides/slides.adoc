@@ -1,6 +1,6 @@
 = Faszinierend!: BDD mit dem Spock Framework 🖖
 Sebastian Lauth · Tech & Team Lead · Deichmann SE
-:customcss: ittage.css
+:customcss: it-tage.css
 :imagesdir: images
 :revdate: 10.11.2026
 :revealjs_controlsLayout: edges
@@ -16,7 +16,7 @@ Sebastian Lauth · Tech & Team Lead · Deichmann SE
 :revealjs_plugin_zoom_path: dist/plugin/zoom.js
 :revealjs_width: 1920
 :source-highlighter: highlight.js
-:highlightjs-languages: java, groovy
+:highlightjs-languages: java, gherkin, groovy
 :highlightjs-theme: reveal.js/dist/plugin/highlight/custom.css
 
 [.columns]
@@ -60,7 +60,7 @@ Für Tests haben wir doch *JUnit*.
 [.notes]
 --
 * *Test* und *Mocking* deckt JUnit gut ab
-* aber *Spezifikation*, *Lesbarkeit* und *Klarheit*…?
+* aber *Spezifikation*, *Lesbarkeit* und *Klarheit*?
    ** wird _immer wichtiger_, da wir mehr Code lesen
 --
 
@@ -90,28 +90,83 @@ image::venn.svg[height=600]
 == Beispiel: *datengetriebener* Test 🧑‍💻
 [.notes]
 --
-* *datengetrieben*: Input = Output
+* *datengetrieben*: Input → Output
 * keine Seiteneffekte
 * perfekt für Unit-Tests
 --
-
 
 === Beispiel: *datengetriebener* Test 🧑‍💻
 
 [source,java,indent=0]
 ----
-include::../src/test/java/de/slauth/shop/discount/MyFirstTest.java[lines=16..22]
+include::../src/test/java/de/slauth/shop/discount/MyFirstTest.java[lines=22..28]
 ----
 
 [%step]
+--
 . Spezifikation… 😵‍💫❓
 . Verifikation… ✅
+--
 
-=== Wie bekomme ich das *lesbarer* hin? 🤔
+=== Wie bekomme ich das *lesbarer* und *klarer* hin? 🤔
+
+=== Behavior Driven Development (BDD) 🗣️
+
+*Idee:* gewünschtes Verhalten innerhalb fester Strukturen +
+in der Sprache des Fachbereichs beschreiben
+
+[%step]
+[source,gherkin]
+----
+Feature: Shopping Cart Discounts
+
+  Scenario Outline: Apply discount based on membership date and order value
+    Given a customer that is member since <member_since>
+    And an order of $<total> EUR value
+    When they place the order
+    Then they get $<expected_discount> EUR discount
+
+    Examples:
+
+      | member_since |  total | expected_discount |
+      |   2026-12-09 |  99.00 |              0.00 |
+      |   2026-12-09 | 100.00 |              5.00 |
+      |   2025-12-09 |  99.00 |              0.00 |
+      |   2024-12-09 |  99.00 |              9.90 |
+      |   2024-12-09 | 100.00 |             15.00 |
+----
+
+[.notes]
+--
+* Nähe zu Domain Driven Design (DDD)
+* aus TDD heraus entstanden
+    ** „Test“ lenkt den Blick zu stark aufs Prüfen
+    ** „Behaviour“ auf das gewünschte Verhalten
+* `Given` = Ausgangslage, `When` = Aktion, `Then` = erwartetes Ergebnis
+* erfordert aber extra „Glue Code“ / ist nicht direkt ausführbar
+* Überleitung: unser JUnit-Test macht nichts anderes …
+--
+
+=== BDD-Struktur in JUnit 😐
+
+[source,java,indent=0]
+----
+include::../src/test/java/de/slauth/shop/discount/MyFirstBddTest.java[lines=22..33]
+----
+
+[.notes]
+--
+* BDD in JUnit angewendet sieht dann oft so aus
+* `given`, `when`, `then` Struktur
+* leider nur reine Konvention (es sind nur Kommentare)
+    ** `then` kann auch vergessen werden
+        *** → Test bleibt trotzdem grün
+* Überleitung: es ist immer noch nicht _direkt_ klar, was der Test spezifiziert
+--
 
 === Wales Style 🏳️
 
-image::Llanfair_PG_railway_station_sign.jpg[height=800]
+image::railway-station-sign.jpg[height=800]
 
 [.notes]
 --
@@ -122,41 +177,50 @@ image::Llanfair_PG_railway_station_sign.jpg[height=800]
 
 [source,java,indent=0]
 ----
-include::../src/test/java/de/slauth/shop/discount/WalesStyleTest.java[lines=16..30]
+include::../src/test/java/de/slauth/shop/discount/WalesStyleTest.java[lines=22..33]
 ----
 
 [.notes]
 --
-* *Probleme*:
-   ** Name und Code laufen auseinander
-   ** Wartbarkeit
+* Test-Name sagt aus, was der Test spezifiziert
+* *Problem*: Name und Code laufen auseinander
+* *und:* Wartbarkeit bei vielen Beispielen
 --
 
-=== BDD Struktur + *`@ParameterizedTest`*
+=== `@ParameterizedTest`
 
-=== BDD Struktur + *`@ParameterizedTest`*
+=== `@ParameterizedTest` mit `@MethodSource`
 
 [source,java,indent=0]
 ----
-include::../src/test/java/de/slauth/shop/discount/ParameterizedStyleTest.java[lines=21..44]
+include::../src/test/java/de/slauth/shop/discount/ParameterizedStyleTest.java[lines=26..49]
 ----
 
 [.notes]
 --
-* `given`, `when`, `then`
-   ** _(Idee kurz erklären)_
-   ** reine Konvention / nur über Kommentare
-   ** `then` kann auch vergessen werden
-      *** Test bleibt trotzdem grün
-* *AssertJ* für bessere Fehlermeldungen
 * Testdaten getrennt vom Test, verknüpft über String 🙁
+--
+
+=== `@ParameterizedTest` mit `@CsvSource`
+
+[source,java,indent=0]
+----
+include::../src/test/java/de/slauth/shop/discount/ParameterizedStyleCsvTest.java[lines=22..41]
+----
+
+[.notes]
+--
+* `@CsvSource` als kompaktere Variante
+    ** weniger dynamisch (Annotationen + Strings)
+    ** muss festes Datum nehmen
+    ** selbst einfach `null` übergeben ist nicht so einfach
 --
 
 === Spock 🖖
 
 [source,groovy,indent=0]
 ----
-include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groovy[lines=17..33]
+include::../src/test/groovy/de/slauth/shop/discount/DiscountCalculatorSpec.groovy[lines=20..36]
 ----
 
 [.notes]
@@ -253,6 +317,9 @@ include::../src/test/groovy/de/slauth/shop/checkout/CheckoutServiceSpec.groovy[l
 --
 * bisher haben wir uns nur Unit-Tests angesehen
 * Spock kann auch problemlos für Integrationstests verwendet werden
+* auch komplett unabhängig vom Code
+    ** reines QA-Projekt
+    ** Steuerung z. B. über einen HTTP-Client
 --
 
 === Integrationstests 🔗
@@ -275,7 +342,7 @@ include::../src/test/groovy/de/slauth/shop/discount/DiscountControllerIntegratio
 
 === UI Tests (Spock + Geb) 🖥️
 
-Geb: https://groovy.apache.org/geb
+[.small]#https://groovy.apache.org/geb#
 
 [source,groovy]
 ----
@@ -335,7 +402,7 @@ expected: 5.00
 
 [.notes]
 --
-* es gibt zwar `@ParameterizedTest(name = "{0}")`, wird aber standardmäßig vom `maven-surefire-plugin` ignoriert
+* es gibt zwar `@ParameterizedTest(name = "...")`, wird aber standardmäßig vom `maven-surefire-plugin` ignoriert
 --
 
 === Spock 💡
@@ -364,7 +431,11 @@ calculator.discountFor(customer, order) == expected
 
 === Spock Reports 📋
 
-image::report.png[height=1000]
+[.small]#https://github.com/renatoathaydes/spock-reports#
+
++++
+<iframe data-src="content/report-failed.html" width="100%" height="790" frameborder="0"></iframe>
++++
 
 [.notes]
 --
@@ -372,6 +443,50 @@ image::report.png[height=1000]
 * falls die Specs für das Business immer noch nicht lesbar genug sind
 * aussagekräftig bei Fehlschlägen
 --
+
+== Vergleich ⚖️
+
+[cols="3h,4,4,4", options="header"]
+|===
+|
+| JUnit (Jupiter)
+| Spock
+| Cucumber
+
+| Grundidee
+| Tests
+| Spezifikation und Test in einem Artefakt
+| Spezifikation in fachlicher Sprache
+
+| Sprache
+| Java
+| Groovy
+| Plain Text
+
+| Struktur
+| keine (nur Konvention)
+| `given`/`when`/`then`-Blöcke
+| `Given`/`When`/`Then`-Sätze
+
+| direkt ausführbar
+| ✅
+| ✅
+| ❌
+
+| Zielgruppe
+| Entwickler/Tester
+| Entwickler/Tester, +
+Fachbereich
+| Entwickler/Tester, +
+Fachbereich
+
+| Aufwand
+| Gering
+| Gering/Mittel +
+[.small]#(Groovy/Spock-Syntax)#
+| Mittel/Hoch +
+[.small]#(Szenarien und Glue Code pflegen)#
+|===
 
 [.columns]
 == Einstieg ohne Big Bang 🤝
@@ -388,7 +503,7 @@ image::report.png[height=1000]
 
 [.fragment, step=1]
 [.column]
-image::junit6_architektur.svg[]
+image::junit6-architektur.svg[]
 
 [.notes]
 --
@@ -423,6 +538,6 @@ image::junit6_architektur.svg[]
 
 Mögen eure Tests *lange und in Frieden* leben! 🖖
 
-image::qrcode_github.svg[width=400]
+image::qrcode-github.svg[width=400]
 
 [.small]#https://github.com/slauth/faszinierend-bdd-mit-dem-spock-framework#

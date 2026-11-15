@@ -5,27 +5,30 @@ import de.slauth.shop.Order;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class WalesStyleTest {
 
-    private final DiscountCalculator calculator = new DiscountCalculator();
+    static final LocalDate today = LocalDate.parse("2026-12-09");
+    static final Clock clock = Clock.fixed(Instant.parse("2026-12-09T17:00:00+01:00"), ZoneId.of("Europe/Berlin"));
+
+    private final DiscountCalculator calculator = new DiscountCalculator(clock);
 
     @Test
-    void memberSinceOneYearAndOrderOf100gets5discount() {
-        Customer customer = new Customer(LocalDate.now().minusYears(1));
-        Order order = new Order(new BigDecimal("100.00"));
-        BigDecimal discount = calculator.discountFor(customer, order);
-        assertEquals(new BigDecimal("5.00"), discount);
-    }
+    void memberSince2YearsAndOrderOf100gets15discount() {
+        // given
+        var customer = new Customer(today.minusYears(2));
+        var order = new Order(new BigDecimal("100.00"));
 
-    @Test
-    void memberSinceTwoYearsAndOrderOf100gets15discount() {
-        Customer customer = new Customer(LocalDate.now().minusYears(2));
-        Order order = new Order(new BigDecimal("100.00"));
-        BigDecimal discount = calculator.discountFor(customer, order);
+        // when
+        var discount = calculator.discountFor(customer, order);
+
+        // then
         assertEquals(new BigDecimal("15.00"), discount);
     }
 }

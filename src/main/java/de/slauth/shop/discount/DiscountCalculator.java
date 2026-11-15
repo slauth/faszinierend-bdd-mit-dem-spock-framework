@@ -5,6 +5,7 @@ import de.slauth.shop.Order;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.Period;
 
 import static java.math.RoundingMode.HALF_UP;
@@ -15,6 +16,12 @@ import static java.time.LocalDate.now;
 /// - Customers who have been members for at least 2 years get *another* 10 % off.
 @Service
 public class DiscountCalculator {
+
+    private final Clock clock;
+
+    public DiscountCalculator(Clock clock) {
+        this.clock = clock;
+    }
 
     public BigDecimal discountFor(Customer customer, Order order) {
         int percent = 0;
@@ -39,7 +46,7 @@ public class DiscountCalculator {
         if (memberSince == null) {
             return false;
         }
-        var threshold = now().minus(Period.ofYears(2));
+        var threshold = now(clock).minus(Period.ofYears(2));
         return !memberSince.isAfter(threshold);
     }
 }

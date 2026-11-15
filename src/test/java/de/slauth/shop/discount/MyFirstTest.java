@@ -5,19 +5,25 @@ import de.slauth.shop.Order;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class MyFirstTest {
 
-    private final DiscountCalculator calculator = new DiscountCalculator();
+    static final LocalDate today = LocalDate.parse("2026-12-09");
+    static final Clock clock = Clock.fixed(Instant.parse("2026-12-09T17:00:00+01:00"), ZoneId.of("Europe/Berlin"));
+
+    private final DiscountCalculator calculator = new DiscountCalculator(clock);
 
     @Test
     void calculatesDiscount() {
-        Customer customer = new Customer(LocalDate.now().minusYears(2));
-        Order order = new Order(new BigDecimal("100.00"));
-        BigDecimal discount = calculator.discountFor(customer, order);
-        assertEquals(new BigDecimal("15.00"), discount);
+        var customer = new Customer(today.minusYears(2));
+        var order = new Order(new BigDecimal("100.00"));
+        var discount = calculator.discountFor(customer, order);
+        assertThat(discount).isEqualTo(new BigDecimal("15.00"));
     }
 }
