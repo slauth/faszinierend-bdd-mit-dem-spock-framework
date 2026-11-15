@@ -32,14 +32,14 @@ class CheckoutServiceTest {
         Customer customer = new Customer(today);
         Order order = new Order(new BigDecimal("100.00"));
         when(calculator.discountFor(customer, order))
-                .thenReturn(new BigDecimal("15.00"));
+                .thenReturn(new BigDecimal("5.00"));
 
         // when
         service.checkout(customer, order);
 
         // then
         verify(calculator, times(1)).discountFor(customer, order);
-        verify(paymentGateway, times(1)).charge(customer, new BigDecimal("85.00"));
+        verify(paymentGateway, times(1)).charge(customer, new BigDecimal("95.00"));
     }
 
     @Test
@@ -48,7 +48,7 @@ class CheckoutServiceTest {
         Customer customer = new Customer(today);
         Order order = new Order(new BigDecimal("100.00"));
         when(calculator.discountFor(customer, order))
-                .thenReturn(new BigDecimal("15.00"));
+                .thenReturn(new BigDecimal("5.00"));
 
         // when
         service.checkout(customer, order);
@@ -61,7 +61,7 @@ class CheckoutServiceTest {
         OrderConfirmation confirmation = captor.getValue();
         assertThat(confirmation.orderNumber()).isNotNull();
         assertThat(confirmation.customer()).isEqualTo(customer);
-        assertThat(confirmation.discount()).isEqualByComparingTo("15.00");
-        assertThat(confirmation.total()).isEqualByComparingTo("85.00");
+        assertThat(confirmation.discount()).isEqualByComparingTo("5.00");
+        assertThat(confirmation.total()).isEqualByComparingTo("95.00");
     }
 }
