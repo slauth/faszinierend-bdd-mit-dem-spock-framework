@@ -141,9 +141,9 @@ Feature: Shopping Cart Discounts
 * Nähe zu Domain Driven Design (DDD)
 * aus TDD heraus entstanden
     ** „Test“ lenkt den Blick zu stark aufs Prüfen
-    ** „Behaviour“ auf das gewünschte Verhalten
+    ** „Behavior“ auf das gewünschte Verhalten
 * `Given` = Ausgangslage, `When` = Aktion, `Then` = erwartetes Ergebnis
-* *aber*: erfordert aber extra „Glue Code“ / ist nicht direkt ausführbar 😐
+* *aber*: erfordert extra „Glue Code“ / ist nicht direkt ausführbar 😐
 * Überleitung: unser JUnit-Test macht nichts anderes …
 --
 
@@ -492,7 +492,7 @@ class HomePage extends Page {
 | Zielgruppe
 | Entwickler/Tester
 | Entwickler/Tester, +
-Fachbereich (Reports)
+Fachbereich (über Reports)
 | Entwickler/Tester, +
 Fachbereich
 
@@ -535,6 +535,13 @@ image::junit6-architektur.svg[]
 * ganz im Sinne von Star Trek: +
 Spock-Specs und JUnit-Tests leben friedlich nebeneinander
 --
+
+=== Gotchas 🔫
+
+* das Team muss Groovy lernen
+* Groovy ist dynamisch typisiert
+    ** schwächere Refactoring- und IDE-Unterstützung
+* der Build wird etwas langsamer
 
 == 3 Dinge zum Mitnehmen 💡
 
