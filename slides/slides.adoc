@@ -459,39 +459,7 @@ class HomePage extends Page {
 * Page Object Pattern
 --
 
-[.columns]
-== Einstieg ohne Big Bang 🤝
-
-[.fragment, step=1]
-[.column.is-two-fifths]
-* Spock 2.x läuft auf der +
-*JUnit-Platform*
-    ** _gleicher_ Maven-/Gradle-Build
-    ** _gleiche_ IDE
-    ** _gleiche_ CI
-* Spock-Specs und JUnit-Tests leben friedlich nebeneinander 🖖
-* Produktionscode bleibt Java
-* Specs in Groovy +
-  → *kein Glue Code* nötig
-
-[.fragment, step=1]
-[.column]
-image::junit6-architektur.svg[]
-
-[.notes]
---
-* „Ich habe aber alles auf JUnit“
-* kein Problem!
-   ** einfach nächsten _neuen_ Test als Spec schreiben
-   ** bei Gefallen: KI regelt Migration 😁
-* keine Angst vor Groovy
-   ** „Java ohne Semikolons“
-   ** Produktionscode bleibt Java (oder Kotlin, oder …)
-* ganz im Sinne von Star Trek: +
-   Spock-Specs und JUnit-Tests leben friedlich nebeneinander
---
-
-=== Vergleich ⚖️
+== Vergleich ⚖️
 
 [cols="3h,4,4,4", options="header"]
 |===
@@ -534,6 +502,38 @@ Fachbereich
 | Mittel/Hoch +
 [.small]#(Szenarien und Glue Code pflegen)#
 |===
+
+[.columns]
+== Einstieg ohne Big Bang 🤝
+
+[.fragment, step=1]
+[.column.is-two-fifths]
+* Spock 2.x läuft auf der +
+  *JUnit-Platform*
+    ** _gleicher_ Maven-/Gradle-Build
+    ** _gleiche_ IDE
+    ** _gleiche_ CI
+* Spock-Specs und JUnit-Tests leben friedlich nebeneinander 🖖
+* Produktionscode bleibt Java
+* Specs in Groovy +
+  → *kein Glue Code* nötig
+
+[.fragment, step=1]
+[.column]
+image::junit6-architektur.svg[]
+
+[.notes]
+--
+* „Ich habe aber alles auf JUnit“
+* kein Problem!
+    ** einfach nächsten _neuen_ Test als Spec schreiben
+    ** bei Gefallen: KI regelt Migration 😁
+* keine Angst vor Groovy
+    ** „Java ohne Semikolons“
+    ** Produktionscode bleibt Java (oder Kotlin, oder …)
+* ganz im Sinne von Star Trek: +
+Spock-Specs und JUnit-Tests leben friedlich nebeneinander
+--
 
 == 3 Dinge zum Mitnehmen 💡
 
