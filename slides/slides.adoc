@@ -31,10 +31,13 @@ image::me.png[height=600]
 
 [.notes]
 --
+* Wer bin ich?
+    ** *Sebastian Lauth*
+    ** so sah ich vor 3 Jahren aus 😁
 * Deichmann ist eine *Unternehmensgruppe*, zu der z. B. auch Snipes gehört
-** in 34 Ländern aktiv
-** 4.700 Filialen
-** 41 Online-Shops
+    ** in 34 Ländern aktiv
+    ** 4.700 Filialen
+    ** 41 Online-Shops
 --
 
 == Was ist das Spock Framework? 🖖
