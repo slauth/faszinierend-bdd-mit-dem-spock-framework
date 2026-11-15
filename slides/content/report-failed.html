@@ -346,7 +346,7 @@ div.footer {
 </div>
 <div class='summary-report'>
 <h3>Summary:</h3>
-<div class='date-test-ran'>Created on Sun Nov 15 10:08:15 CET 2026 by SLA23</div>
+<div class='date-test-ran'>Created on Wed Dec 9 17:00:00 CET 2026 by slauth</div>
 <table class='summary-table'>
 <thead>
 <tr>
@@ -367,7 +367,7 @@ div.footer {
 <td>0</td>
 <td>0</td>
 <td>60,0%</td>
-<td>0,173 seconds</td>
+<td>0,187 seconds</td>
 </tr>
 </tbody>
 </table>
@@ -412,7 +412,15 @@ div.footer {
 <div class='block-kind'>Given:</div>
 </td>
 <td>
-<div class='block-text'>a customer with membership since 2026-12-09 and with an order of 99.00 EUR</div>
+<div class='block-text'>a customer with membership since 2026-12-09</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>an order of 99.00 EUR</div>
 </td>
 </tr>
 <tr>
@@ -466,7 +474,7 @@ div.footer {
 <span>member since 2026-12-09, order of 100.00 EUR gets 5.00 EUR discount [1]</span>
 <span class='return-toc'>
 <a href='#toc'>Return</a>
-<div class='ex-time'>(0,147 seconds)</div>
+<div class='ex-time'>(0,159 seconds)</div>
 </span>
 </div>
 </td>
@@ -476,7 +484,15 @@ div.footer {
 <div class='block-kind'>Given:</div>
 </td>
 <td>
-<div class='block-text'>a customer with membership since 2026-12-09 and with an order of 100.00 EUR</div>
+<div class='block-text'>a customer with membership since 2026-12-09</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>an order of 100.00 EUR</div>
 </td>
 </tr>
 <tr>
@@ -516,7 +532,7 @@ div.footer {
 <td class='ex-value'>5.00</td>
 <td class='ex-result'>
 <span>FAIL</span>
-<span class='ex-time'>(0,147 seconds)</span>
+<span class='ex-time'>(0,159 seconds)</span>
 </td>
 </tr>
 </tbody>
@@ -531,7 +547,7 @@ div.footer {
 <div class='problem-list'>
 <ul>
 <li>
-<pre>Condition not satisfied:<br/><br/>calculator.discountFor(customer, order) == expected<br/>|          |           |         |      |  |<br/>|          0.00        |         |      |  5.00<br/>|                      |         |      false<br/>|                      |         Order[total=100.00]<br/>|                      Customer[memberSince=2026-12-09]<br/>&lt;de.slauth.shop.discount.DiscountCalculator@aca2fc3 clock=inaccessible&gt;<br/></pre>
+<pre>Condition not satisfied:<br/><br/>calculator.discountFor(customer, order) == expected<br/>|          |           |         |      |  |<br/>|          0.00        |         |      |  5.00<br/>|                      |         |      false<br/>|                      |         Order[total=100.00]<br/>|                      Customer[memberSince=2026-12-09]<br/>&lt;de.slauth.shop.discount.DiscountCalculator@3ea48c37 clock=inaccessible&gt;<br/></pre>
 </li>
 </ul>
 </div>
@@ -554,7 +570,15 @@ div.footer {
 <div class='block-kind'>Given:</div>
 </td>
 <td>
-<div class='block-text'>a customer with membership since 2025-12-09 and with an order of 99.00 EUR</div>
+<div class='block-text'>a customer with membership since 2025-12-09</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>an order of 99.00 EUR</div>
 </td>
 </tr>
 <tr>
@@ -618,7 +642,15 @@ div.footer {
 <div class='block-kind'>Given:</div>
 </td>
 <td>
-<div class='block-text'>a customer with membership since 2024-12-09 and with an order of 99.00 EUR</div>
+<div class='block-text'>a customer with membership since 2024-12-09</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>an order of 99.00 EUR</div>
 </td>
 </tr>
 <tr>
@@ -672,7 +704,7 @@ div.footer {
 <span>member since 2024-12-09, order of 100.00 EUR gets 15.00 EUR discount [4]</span>
 <span class='return-toc'>
 <a href='#toc'>Return</a>
-<div class='ex-time'>(0,002 seconds)</div>
+<div class='ex-time'>(0,004 seconds)</div>
 </span>
 </div>
 </td>
@@ -682,7 +714,15 @@ div.footer {
 <div class='block-kind'>Given:</div>
 </td>
 <td>
-<div class='block-text'>a customer with membership since 2024-12-09 and with an order of 100.00 EUR</div>
+<div class='block-text'>a customer with membership since 2024-12-09</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>an order of 100.00 EUR</div>
 </td>
 </tr>
 <tr>
@@ -722,7 +762,7 @@ div.footer {
 <td class='ex-value'>15.00</td>
 <td class='ex-result'>
 <span>FAIL</span>
-<span class='ex-time'>(0,002 seconds)</span>
+<span class='ex-time'>(0,004 seconds)</span>
 </td>
 </tr>
 </tbody>
@@ -737,7 +777,7 @@ div.footer {
 <div class='problem-list'>
 <ul>
 <li>
-<pre>Condition not satisfied:<br/><br/>calculator.discountFor(customer, order) == expected<br/>|          |           |         |      |  |<br/>|          10.00       |         |      |  15.00<br/>|                      |         |      false<br/>|                      |         Order[total=100.00]<br/>|                      Customer[memberSince=2024-12-09]<br/>&lt;de.slauth.shop.discount.DiscountCalculator@352e5a82 clock=inaccessible&gt;<br/></pre>
+<pre>Condition not satisfied:<br/><br/>calculator.discountFor(customer, order) == expected<br/>|          |           |         |      |  |<br/>|          10.00       |         |      |  15.00<br/>|                      |         |      false<br/>|                      |         Order[total=100.00]<br/>|                      Customer[memberSince=2024-12-09]<br/>&lt;de.slauth.shop.discount.DiscountCalculator@6cd2cb2 clock=inaccessible&gt;<br/></pre>
 </li>
 </ul>
 </div>

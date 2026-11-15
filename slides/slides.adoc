@@ -144,7 +144,8 @@ Feature: Shopping Cart Discounts
     ** „Behavior“ auf das gewünschte Verhalten
 * `Given` = Ausgangslage, `When` = Aktion, `Then` = erwartetes Ergebnis
 * *aber*: erfordert extra „Glue Code“ / ist nicht direkt ausführbar 😐
-* Überleitung: unser JUnit-Test macht nichts anderes …
+    ** für Entwickler nicht praktikabel
+* Überleitung: aber wir können Teile daraus für JUnit übernehmen …
 --
 
 == BDD mit JUnit – Annäherungsversuche 😐

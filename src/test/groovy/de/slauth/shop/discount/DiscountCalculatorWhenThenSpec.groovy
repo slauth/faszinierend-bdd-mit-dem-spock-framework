@@ -19,8 +19,10 @@ class DiscountCalculatorWhenThenSpec extends Specification {
 
     void "member since #memberSince, order of #total EUR gets #expected EUR discount"() {
 
-        given: "a customer with membership since #memberSince and with an order of #total EUR"
+        given: "a customer with membership since #memberSince"
             def customer = new Customer(memberSince)
+
+        and: "an order of #total EUR"
             def order = new Order(total)
 
         when: "the discount is calculated"
